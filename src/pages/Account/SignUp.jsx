@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   // ============= Initial State Start here =============
@@ -20,6 +20,8 @@ const SignUp = () => {
   const [errAddress, setErrAddress] = useState("");
   // ============= Error Msg End here ===================
   const [successMsg, setSuccessMsg] = useState("");
+
+  const nav = useNavigate();
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -105,7 +107,37 @@ const SignUp = () => {
         setAddress("");
       }
     }
+    registerRequest()
   };
+
+  const registerRequest = () => {
+    fetch(`${import.meta.env.VITE_HOST}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // nếu gói tin không có chưa file thì thêm dòng này, và body là json
+      },
+      body:  JSON.stringify({
+        username: email.split('@')[0], 
+        fullname: fullName, 
+        birthday, 
+        phone, 
+        address, 
+        email, 
+        password
+      })
+    })
+    .then(res => {
+      if(res.status === 200)
+        return res.json()
+      else
+        throw new Error(res.json())
+    })
+    .then(data => {
+      localStorage.setItem('token', data?.token)
+      nav('/signin')
+    })
+    .catch(err => console.error(err));
+  }
 
   return (
     <div className="w-full h-screen flex items-center justify-center">

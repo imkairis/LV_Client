@@ -1,17 +1,47 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   // Initial State
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errEmail, setErrEmail] = useState("");
   const [errPassword, setErrPassword] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  useEffect(() => {
+    if(localStorage.getItem('token'))
+      checkLogin()
+  }, [])
+
+  const checkLogin = () => {
+    fetch(`${import.meta.env.VITE_HOST}/auth`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` ,
+      },
+    })
+    .then(res => {
+      if(res.status === 200)
+        return res.json()
+      else 
+        throw new Error('Chưa đăng nhập');
+    })
+    .then(data => {
+      nav('/')
+      localStorage.setItem('user', JSON.stringify(data?.data))
+    })
+    .catch(err => {
+      localStorage.clear('token')
+      console.error(err)
+    })
+  }
+
+  const nav = useNavigate();
+
   // Event Handlers
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
     setErrEmail("");
   };
 
@@ -22,17 +52,39 @@ const SignIn = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (!email) setErrEmail("Enter your email");
+    if (!username) setErrEmail("Enter your username");
     if (!password) setErrPassword("Create a password");
 
-    if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
-      setEmail("");
+    if (username && password) {
+      handleLogin()
+      setUsername("");
       setPassword("");
     }
   };
+
+  const handleLogin = () => {
+    fetch(`${import.meta.env.VITE_HOST}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(res => {
+      if(res.status === 200)
+        return res.json()
+      else
+        throw new Error(res.json())
+    })
+    .then(data => {
+      localStorage.setItem('token', data?.token)
+      localStorage.setItem('user', JSON.stringify(data?.user))
+      nav('/');
+    })
+    .catch(err => console.error(err))
+  }
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
@@ -64,8 +116,8 @@ const SignIn = () => {
                     Email
                   </p>
                   <input
-                    onChange={handleEmail}
-                    value={email}
+                    onChange={handleUsername}
+                    value={username}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
                     placeholder="john@workemail.com"
