@@ -1,120 +1,89 @@
-import { useState } from "react";
-import { BsCheckCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import { logoLight } from "../../assets/images";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-    // ============= Initial State Start here =============
-    const [email, setEmail] = useState("");
+    // Initial State
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // ============= Initial State End here ===============
-    // ============= Error Msg Start here =================
     const [errEmail, setErrEmail] = useState("");
     const [errPassword, setErrPassword] = useState("");
-
-    // ============= Error Msg End here ===================
     const [successMsg, setSuccessMsg] = useState("");
-    // ============= Event Handler Start here =============
-    const handleEmail = e => {
-        setEmail(e.target.value);
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) checkLogin();
+    }, []);
+
+    const checkLogin = () => {
+        fetch(`${import.meta.env.VITE_HOST}/auth`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+            .then(res => {
+                if (res.status === 200) return res.json();
+                else throw new Error("Chưa đăng nhập");
+            })
+            .then(data => {
+                nav("/");
+                localStorage.setItem("user", JSON.stringify(data?.data));
+            })
+            .catch(err => {
+                localStorage.clear("token");
+                console.error(err);
+            });
+    };
+
+    const nav = useNavigate();
+
+    // Event Handlers
+    const handleUsername = e => {
+        setUsername(e.target.value);
         setErrEmail("");
     };
+
     const handlePassword = e => {
         setPassword(e.target.value);
         setErrPassword("");
     };
-    // ============= Event Handler End here ===============
+
     const handleSignUp = e => {
         e.preventDefault();
+        if (!username) setErrEmail("Enter your username");
+        if (!password) setErrPassword("Create a password");
 
-        if (!email) {
-            setErrEmail("Enter your email");
-        }
-
-        if (!password) {
-            setErrPassword("Create a password");
-        }
-        // ============== Getting the value ==============
-        if (email && password) {
-            setSuccessMsg(
-                `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-            );
-            setEmail("");
+        if (username && password) {
+            handleLogin();
+            setUsername("");
             setPassword("");
         }
     };
+
+    const handleLogin = () => {
+        fetch(`${import.meta.env.VITE_HOST}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        })
+            .then(res => {
+                if (res.status === 200) return res.json();
+                else throw new Error(res.json());
+            })
+            .then(data => {
+                localStorage.setItem("token", data?.token);
+                localStorage.setItem("user", JSON.stringify(data?.user));
+                nav("/");
+            })
+            .catch(err => console.error(err));
+    };
+
     return (
         <div className='w-full h-screen flex items-center justify-center'>
-            <div className='w-1/2 hidden lgl:inline-flex h-full text-white'>
-                <div className='w-[450px] h-full bg-primeColor px-10 flex flex-col gap-6 justify-center'>
-                    <Link to='/'>
-                        <img src={logoLight} alt='logoImg' className='w-28' />
-                    </Link>
-                    <div className='flex flex-col gap-1 -mt-1'>
-                        <h1 className='font-titleFont text-xl font-medium'>
-                            Stay sign in for more
-                        </h1>
-                        <p className='text-base'>
-                            When you sign in, you are with us!
-                        </p>
-                    </div>
-                    <div className='w-[300px] flex items-start gap-3'>
-                        <span className='text-green-500 mt-1'>
-                            <BsCheckCircleFill />
-                        </span>
-                        <p className='text-base text-gray-300'>
-                            <span className='text-white font-semibold font-titleFont'>
-                                Get started fast with OREBI
-                            </span>
-                            <br />
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Ab omnis nisi dolor recusandae consectetur!
-                        </p>
-                    </div>
-                    <div className='w-[300px] flex items-start gap-3'>
-                        <span className='text-green-500 mt-1'>
-                            <BsCheckCircleFill />
-                        </span>
-                        <p className='text-base text-gray-300'>
-                            <span className='text-white font-semibold font-titleFont'>
-                                Access all OREBI services
-                            </span>
-                            <br />
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Ab omnis nisi dolor recusandae consectetur!
-                        </p>
-                    </div>
-                    <div className='w-[300px] flex items-start gap-3'>
-                        <span className='text-green-500 mt-1'>
-                            <BsCheckCircleFill />
-                        </span>
-                        <p className='text-base text-gray-300'>
-                            <span className='text-white font-semibold font-titleFont'>
-                                Trusted by online Shoppers
-                            </span>
-                            <br />
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Ab omnis nisi dolor recusandae consectetur!
-                        </p>
-                    </div>
-                    <div className='flex items-center justify-between mt-10'>
-                        <Link to='/'>
-                            <p className='text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300'>
-                                © OREBI
-                            </p>
-                        </Link>
-                        <p className='text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300'>
-                            Terms
-                        </p>
-                        <p className='text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300'>
-                            Privacy
-                        </p>
-                        <p className='text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300'>
-                            Security
-                        </p>
-                    </div>
-                </div>
-            </div>
             <div className='w-full lgl:w-1/2 h-full'>
                 {successMsg ? (
                     <div className='w-full lgl:w-[500px] h-full flex flex-col justify-center'>
@@ -124,7 +93,7 @@ const SignIn = () => {
                         <Link to='/signup'>
                             <button
                                 className='w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-titleFont font-semibold 
-            tracking-wide hover:bg-black hover:text-white duration-300'
+                tracking-wide hover:bg-black hover:text-white duration-300'
                             >
                                 Sign Up
                             </button>
@@ -140,11 +109,11 @@ const SignIn = () => {
                                 {/* Email */}
                                 <div className='flex flex-col gap-.5'>
                                     <p className='font-titleFont text-base font-semibold text-gray-600'>
-                                        Work Email
+                                        Email
                                     </p>
                                     <input
-                                        onChange={handleEmail}
-                                        value={email}
+                                        onChange={handleUsername}
+                                        value={username}
                                         className='w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none'
                                         type='email'
                                         placeholder='john@workemail.com'
