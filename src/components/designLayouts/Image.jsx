@@ -1,7 +1,9 @@
 import React from "react";
 
-const Image = ({ imgSrc, className }) => {
-  return <img className={className} src={imgSrc} alt={imgSrc} />;
+const API_URL = import.meta.env.VITE_HOST;
+const Image = ({ imgSrc, className, isServer = false }) => {
+  const src = isServer ? API_URL + "/" + imgSrc : imgSrc;
+  return <img className={className} src={src} alt={imgSrc} />;
 };
 
 export default Image;

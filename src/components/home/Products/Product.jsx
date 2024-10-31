@@ -1,4 +1,4 @@
- import React from "react";
+import React from "react";
 import { BsSuitHeartFill } from "react-icons/bs";
 import { GiReturnArrow } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -11,26 +11,22 @@ import { addToCart } from "../../../redux/orebiSlice";
 
 const Product = (props) => {
   const dispatch = useDispatch();
-  const _id = props.productName;
-  const idString = (_id) => {
-    return String(_id).toLowerCase().split(" ").join("");
-  };
-  const rootId = idString(_id);
+  const _id = props._id;
 
   const navigate = useNavigate();
-  const productItem = props;
   const handleProductDetails = () => {
-    navigate(`/product/${rootId}`, {
-      state: {
-        item: productItem,
-      },
-    });
+    navigate(`/product/${_id}`);
   };
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
         <div>
-          <Image className="w-full h-full" imgSrc={props.img} />
+          <Image
+            className="w-full h-full"
+            imgSrc={props?.images?.[0] || props.img}
+            alt="product image"
+            isServer={!props?.color}
+          />
         </div>
         <div className="absolute top-6 left-8">
           {props.badge && <Badge text="New" />}
@@ -47,13 +43,8 @@ const Product = (props) => {
               onClick={() =>
                 dispatch(
                   addToCart({
-                    _id: props._id,
-                    name: props.productName,
+                    ...props,
                     quantity: 1,
-                    image: props.img,
-                    badge: props.badge,
-                    price: props.price,
-                    colors: props.color,
                   })
                 )
               }
@@ -90,7 +81,13 @@ const Product = (props) => {
           <p className="text-[#767676] text-[14px]">${props.price}</p>
         </div>
         <div>
-          <p className="text-[#767676] text-[14px]">{props.color}</p>
+          <p className="text-[#767676] text-[14px]">{props.targetAudience}</p>
+        </div>
+        <div>
+          <p className="text-[#767676] text-[14px]">{props.origin}</p>
+        </div>
+        <div>
+          <p className="text-[#767676] text-[14px]">{props.weight}</p>
         </div>
       </div>
     </div>

@@ -1,58 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactPaginate from "react-paginate";
 import Product from "../../home/Products/Product";
-import { paginationItems } from "../../../constants";
-
-const items = paginationItems;
-function Items({ currentItems }) {
-  return (
-    <>
-      {currentItems &&
-        currentItems.map((item) => (
-          <div key={item._id} className="w-full">
-            <Product
-              _id={item._id}
-              img={item.img}
-              productName={item.productName}
-              price={item.price}
-              color={item.color}
-              badge={item.badge}
-              des={item.des}
-            />
-          </div>
-        ))}
-    </>
-  );
-}
+import { getAllProducts } from "../../../services";
 
 const Pagination = ({ itemsPerPage }) => {
-  // Here we use item offsets; we could also use page offsets
-  // following the API or data you're working with.
-  const [itemOffset, setItemOffset] = useState(0);
-  const [itemStart, setItemStart] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState({
+    totalItems: 1,
+    totalPageItems: 1,
+    totalPage: 1,
+    page: 1,
+    limit: 5,
+  });
 
-  // Simulate fetching items from another resources.
-  // (This could be items from props; or items loaded in a local state
-  // from an API endpoint with useEffect and useState)
-  const endOffset = itemOffset + itemsPerPage;
-  //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = items.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  console.log(products);
 
-  // Invoke when user click to request another page.
+  const startOffset = useMemo(
+    () => (pagination.page === 1 ? 1 : pagination.page * pagination.limit),
+    [pagination]
+  );
+  const endOffset = useMemo(
+    () =>
+      pagination.page === 1
+        ? 1 + pagination.limit
+        : pagination.page * pagination.limit + pagination.limit,
+    [pagination]
+  );
+
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    setItemOffset(newOffset);
-    // console.log(
-    //   `User requested page number ${event.selected}, which is offset ${newOffset},`
-    // );
-    setItemStart(newOffset);
+    const pageClicked = event.selected;
   };
+
+  useEffect(() => {
+    getAllProducts()
+      .then((res) => {
+        setProducts(res.data);
+        setPagination(res.pagination);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mdl:gap-4 lg:gap-10">
-        <Items currentItems={currentItems} />
+        <Items products={products} />
       </div>
       <div className="flex flex-col mdl:flex-row justify-center mdl:justify-between items-center">
         <ReactPaginate
@@ -60,7 +53,7 @@ const Pagination = ({ itemsPerPage }) => {
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           marginPagesDisplayed={2}
-          pageCount={pageCount}
+          pageCount={pagination.totalPage}
           previousLabel=""
           pageLinkClassName="w-9 h-9 border-[1px] border-lightColor hover:border-gray-500 duration-300 flex justify-center items-center"
           pageClassName="mr-6"
@@ -69,8 +62,7 @@ const Pagination = ({ itemsPerPage }) => {
         />
 
         <p className="text-base font-normal text-lightText">
-          Products from {itemStart === 0 ? 1 : itemStart} to {endOffset} of{" "}
-          {items.length}
+          Products from {startOffset} to {endOffset} of {pagination.totalItems}
         </p>
       </div>
     </div>
@@ -78,3 +70,16 @@ const Pagination = ({ itemsPerPage }) => {
 };
 
 export default Pagination;
+
+function Items({ products }) {
+  return (
+    <>
+      {products &&
+        products.map((item) => (
+          <div key={item._id} className="w-full">
+            <Product {...item} />
+          </div>
+        ))}
+    </>
+  );
+}
