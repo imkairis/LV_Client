@@ -3,7 +3,12 @@ import { motion } from "framer-motion";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import Flex from "../../designLayouts/Flex";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+    Link,
+    useLocation,
+    useNavigate,
+    useSearchParams,
+} from "react-router-dom";
 import { debounce } from "../../../utils/utils";
 import {
     getAllProducts,
@@ -20,6 +25,7 @@ const HeaderBottom = () => {
     const [show, setShow] = useState(false);
     const [showUser, setShowUser] = useState(false);
     const [search, setSearch] = useState("");
+    const { pathname } = useLocation();
     const navigate = useNavigate();
     const ref = useRef();
 
@@ -71,7 +77,14 @@ const HeaderBottom = () => {
             return;
         }
         setShowSuggest(false);
-        navigate(`/shop?search=${search}`);
+        if (pathname === "/shop") {
+            setSearchParams(prev => {
+                prev.set("search", search);
+                return prev;
+            });
+        } else {
+            navigate(`/shop?search=${search}`);
+        }
     };
 
     useEffect(() => {
