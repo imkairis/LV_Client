@@ -1,44 +1,43 @@
 import { useEffect, useState } from "react";
 import NavTitle from "./NavTitle";
-import { getAllProductTypes } from "../../../../services";
+import { getAllTargets } from "../../../../services";
 import { useSearchParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 
-const Category = () => {
-    const [category, setCategory] = useState([]);
+const Targets = () => {
+    const [targets, setTarget] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const handleClickCategory = id => {
+    const handleClickTarget = id => {
         setSearchParams(prev => {
-            if (prev.get("type") === id) {
-                prev.delete("type");
+            if (prev.get("targets") === id) {
+                prev.delete("targets");
             } else {
-                prev.set("type", id);
+                prev.set("targets", id);
             }
             return prev;
         });
     };
 
     useEffect(() => {
-        getAllProductTypes().then(res => {
-            setCategory(res?.data || []);
+        getAllTargets().then(res => {
+            setTarget(res?.data || []);
         });
     }, []);
 
     return (
         <div className='w-full'>
-            <NavTitle title='Shop by Category' icons={false} />
+            <NavTitle title='Shop by Target' icons={false} />
             <div>
                 <ul className='flex flex-col gap-4 text-sm lg:text-base text-[#767676]'>
-                    {category.map(({ _id, name }) => (
+                    {targets.map(({ _id, name }) => (
                         <li
-                            onClick={() => handleClickCategory(_id)}
+                            onClick={() => handleClickTarget(_id)}
                             key={_id}
                             className='border-b-[1px] border-b-[#F0F0F0] pb-2 flex justify-between items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer'
                         >
                             {name}
-
-                            {searchParams.get("type") === _id && <IoClose />}
+                            {searchParams.get("targets") === _id && <IoClose />}
                         </li>
                     ))}
                 </ul>
@@ -47,4 +46,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default Targets;

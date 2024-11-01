@@ -1,44 +1,45 @@
 import { useEffect, useState } from "react";
-import NavTitle from "./NavTitle";
-import { getAllProductTypes } from "../../../../services";
-import { useSearchParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
+import NavTitle from "./NavTitle";
+import { getAllAges } from "../../../../services";
+import { useSearchParams } from "react-router-dom";
 
-const Category = () => {
-    const [category, setCategory] = useState([]);
+const AgeGroup = () => {
+    const [ageGroup, setAgeGroup] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const handleClickCategory = id => {
+    const handleClickAgeGroup = id => {
         setSearchParams(prev => {
-            if (prev.get("type") === id) {
-                prev.delete("type");
+            if (prev.get("ageGroup") === id) {
+                prev.delete("ageGroup");
             } else {
-                prev.set("type", id);
+                prev.set("ageGroup", id);
             }
             return prev;
         });
     };
 
     useEffect(() => {
-        getAllProductTypes().then(res => {
-            setCategory(res?.data || []);
+        getAllAges().then(res => {
+            setAgeGroup(res?.data || []);
         });
     }, []);
 
     return (
         <div className='w-full'>
-            <NavTitle title='Shop by Category' icons={false} />
+            <NavTitle title='Shop by Age group' icons={false} />
             <div>
                 <ul className='flex flex-col gap-4 text-sm lg:text-base text-[#767676]'>
-                    {category.map(({ _id, name }) => (
+                    {ageGroup.map(({ _id, name }) => (
                         <li
-                            onClick={() => handleClickCategory(_id)}
+                            onClick={() => handleClickAgeGroup(_id)}
                             key={_id}
                             className='border-b-[1px] border-b-[#F0F0F0] pb-2 flex justify-between items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer'
                         >
                             {name}
-
-                            {searchParams.get("type") === _id && <IoClose />}
+                            {searchParams.get("ageGroup") === _id && (
+                                <IoClose />
+                            )}
                         </li>
                     ))}
                 </ul>
@@ -47,4 +48,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default AgeGroup;

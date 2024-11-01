@@ -15,3 +15,13 @@ export const getAllProductTypes = async queries => {
     const params = new URLSearchParams(queries).toString();
     return instanceAxios.get(`/types?${params}`).then(res => res.data);
 };
+
+export const getAllAges = async queries => {
+    const params = new URLSearchParams(queries).toString();
+    return instanceAxios.get(`/ages?${params}`).then(res => res.data);
+};
+
+export const getAllTargets = async queries => {
+    const params = new URLSearchParams(queries).toString();
+    return instanceAxios.get(`/targets?${params}`).then(res => res.data);
+};
