@@ -20,7 +20,9 @@ const AgeGroup = () => {
     };
 
     useEffect(() => {
-        getAllAges().then(res => {
+        getAllAges({
+            limit: 999,
+        }).then(res => {
             setAgeGroup(res?.data || []);
         });
     }, []);
