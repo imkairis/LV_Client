@@ -6,44 +6,48 @@ import { getProductById } from "../../services";
 import Image from "../../components/designLayouts/Image";
 
 const ProductDetails = () => {
-  const location = useLocation();
-  const { _id } = useParams();
-  const [prevLocation, setPrevLocation] = useState("");
-  const [productInfo, setProductInfo] = useState([]);
+    const location = useLocation();
+    const { _id } = useParams();
+    const [prevLocation, setPrevLocation] = useState("");
+    const [productInfo, setProductInfo] = useState([]);
 
-  useEffect(() => {
-    if (location.state?.item && location.state?.item?.img) {
-      setProductInfo(location.state.item);
-    } else {
-      getProductById(_id).then((res) => setProductInfo(res.data));
-    }
-    setPrevLocation(location.pathname);
-  }, [_id, location.pathname, location.state?.item]);
+    useEffect(() => {
+        if (location.state?.item && location.state?.item?.img) {
+            setProductInfo(location.state.item);
+        } else {
+            getProductById(_id, {
+                populate: "type,ageGroup,targetAudience",
+            }).then(res => setProductInfo(res.data));
+        }
+        setPrevLocation(location.pathname);
+    }, [_id, location.pathname, location.state?.item]);
 
-  return (
-    <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
-      <div className="max-w-container mx-auto px-4">
-        <div className="xl:-mt-10 -mt-7">
-          <Breadcrumbs title="" prevLocation={prevLocation} />
+    return (
+        <div className='w-full mx-auto border-b-[1px] border-b-gray-300'>
+            <div className='max-w-container mx-auto px-4'>
+                <div className='xl:-mt-10 -mt-7'>
+                    <Breadcrumbs title='' prevLocation={prevLocation} />
+                </div>
+                <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4'>
+                    <div className='h-full'>
+                        {" "}
+                        <Image
+                            className='w-full h-full object-cover'
+                            imgSrc={
+                                productInfo?.img || productInfo?.images?.[0]
+                            }
+                            isServer={productInfo?.images}
+                            alt={productInfo.img}
+                        />
+                    </div>
+                    <div className='h-full w-full xl:p-14 flex flex-col gap-6 justify-center'>
+                        {" "}
+                        <ProductInfo productInfo={productInfo} />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4">
-          <div className="h-full">
-            {" "}
-            <Image
-              className="w-full h-full object-cover"
-              imgSrc={productInfo?.img || productInfo?.images?.[0]}
-              isServer={productInfo?.images}
-              alt={productInfo.img}
-            />
-          </div>
-          <div className="h-full w-full xl:p-14 flex flex-col gap-6 justify-center">
-            {" "}
-            <ProductInfo productInfo={productInfo} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProductDetails;

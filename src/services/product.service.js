@@ -7,8 +7,11 @@ export const getAllProducts = async (params = {}) => {
     return instanceAxios.get(url).then(res => res.data);
 };
 
-export const getProductById = async id => {
-    return instanceAxios.get(`/products/${id}`).then(res => res.data);
+export const getProductById = async (id, params = {}) => {
+    const query = new URLSearchParams(params);
+    return instanceAxios
+        .get(`/products/${id}?${query.toString()}`)
+        .then(res => res.data);
 };
 
 export const getAllProductTypes = async queries => {

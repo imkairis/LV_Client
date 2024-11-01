@@ -7,3 +7,12 @@ export function debounce(func, timeout = 300) {
         }, timeout);
     };
 }
+
+export const formatDate = (date, opt = {}) => {
+    return new Date(date).toLocaleDateString("vi-VN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        ...opt,
+    });
+};
