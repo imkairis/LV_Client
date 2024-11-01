@@ -29,7 +29,6 @@ const ProductDetails = () => {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4">
           <div className="h-full">
             {" "}
-            {/* Ảnh chiếm 1/2 */}
             <Image
               className="w-full h-full object-cover"
               imgSrc={productInfo?.img || productInfo?.images?.[0]}
@@ -39,7 +38,6 @@ const ProductDetails = () => {
           </div>
           <div className="h-full w-full xl:p-14 flex flex-col gap-6 justify-center">
             {" "}
-            {/* Thông tin chiếm 1/2 */}
             <ProductInfo productInfo={productInfo} />
           </div>
         </div>
