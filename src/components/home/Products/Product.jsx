@@ -20,7 +20,7 @@ const Product = props => {
     };
 
     return (
-        <div className='w-full relative group'>
+        <div className='w-full relative group h-full flex flex-col shadow'>
             <div className='max-w-80 max-h-80 relative overflow-y-hidden '>
                 <div>
                     <Image
@@ -75,9 +75,9 @@ const Product = props => {
                     </ul>
                 </div>
             </div>
-            <div className='max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4'>
-                <div className='flex items-center justify-between font-titleFont'>
-                    <h2 className='text-lg text-primeColor font-bold'>
+            <div className='max-w-80 py-6 pb-2 flex-1 flex flex-col gap-1 border-[1px] border-t-0 px-4'>
+                <div className='flex items-center justify-between font-titleFont flex-1'>
+                    <h2 className='text-lg text-primeColor font-bold line-clamp-2'>
                         {props?.productName || props?.name}
                     </h2>
                     <p className='text-[#767676] text-[14px]'>${props.price}</p>

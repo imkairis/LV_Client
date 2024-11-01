@@ -38,7 +38,9 @@ const Pagination = () => {
 
     useEffect(() => {
         const obj = toObjectSearchParams(searchParam);
-        obj.limit = 9;
+        if (!obj?.limit) {
+            obj.limit = 9;
+        }
         getAllProducts(obj)
             .then(res => {
                 setProducts(res.data);
