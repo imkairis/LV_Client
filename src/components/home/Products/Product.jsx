@@ -75,20 +75,18 @@ const Product = (props) => {
       </div>
       <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
         <div className="flex items-center justify-between font-titleFont">
-          <h2 className="text-lg text-primeColor font-bold">
-            {props.productName}
-          </h2>
+          <h2 className="text-lg text-primeColor font-bold">{props.name}</h2>
           <p className="text-[#767676] text-[14px]">${props.price}</p>
         </div>
-        <div>
+        {/* <div>
           <p className="text-[#767676] text-[14px]">{props.targetAudience}</p>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <p className="text-[#767676] text-[14px]">{props.origin}</p>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <p className="text-[#767676] text-[14px]">{props.weight}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
