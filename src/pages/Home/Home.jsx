@@ -11,8 +11,8 @@ const Home = () => {
       <BannerBottom />
       <div className="max-w-container mx-auto px-4">
         <NewArrivals />
-        <BestSellers />
-        <SpecialOffers />
+        {/* <BestSellers />
+        <SpecialOffers /> */}
       </div>
     </div>
   );

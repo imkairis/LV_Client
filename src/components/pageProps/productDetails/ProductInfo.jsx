@@ -16,17 +16,32 @@ const ProductInfo = ({ productInfo }) => {
         {parseInt(productInfo.price).toLocaleString("vi-VN")} VND
       </p>
       <button
-        onClick={() =>
-          dispatch(
-            addToCart({
-              _id: productInfo._id,
-              name: productInfo.productName,
+        onClick={() => {
+          // dispatch(
+          //   addToCart({
+          //     _id: productInfo._id,
+          //     name: productInfo.productName,
+          //     quantity: 1,
+          //     image: productInfo.images[0],
+          //     price: productInfo.price,
+          //   })
+          // );
+          console.log(`${import.meta.env.VITE_HOST}/carts`);
+          fetch(`${import.meta.env.VITE_HOST}/carts`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              product: productInfo._id,
               quantity: 1,
-              image: productInfo.images[0],
-              price: productInfo.price,
-            })
-          )
-        }
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+        }}
         className="w-full py-4 bg-primeColor hover:bg-black duration-300 text-white text-lg font-titleFont"
       >
         Add to Cart

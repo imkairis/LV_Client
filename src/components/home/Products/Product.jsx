@@ -40,6 +40,7 @@ const Product = (props) => {
                 dispatch(
                   addToCart({
                     ...props,
+                    imgSrc,
                     quantity: 1,
                   })
                 )
