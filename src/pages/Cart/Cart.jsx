@@ -31,7 +31,7 @@ const Cart = () => {
   //   }
   // }, [totalAmt]);
 
-  useEffect(() => {
+  const fetchCartItem = () => {
     fetch(`${import.meta.env.VITE_HOST}/carts`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,6 +41,7 @@ const Cart = () => {
       .then((data) =>
         setProducts(
           data?.data?.items.map((value) => ({
+            _id: value?.product?._id,
             name: value?.product?.name,
             image: value?.product?.images?.[0],
             price: value?.product?.price,
@@ -49,6 +50,10 @@ const Cart = () => {
         )
       )
       .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchCartItem();
     console.log(products);
   }, []);
 
@@ -66,7 +71,7 @@ const Cart = () => {
           <div className="mt-5">
             {products.map((item) => (
               <div key={item?._id}>
-                <ItemCard item={item} />
+                <ItemCard item={item} refresh={fetchCartItem} />
               </div>
             ))}
           </div>
