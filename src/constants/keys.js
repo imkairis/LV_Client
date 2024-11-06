@@ -1,3 +1,3 @@
 export const KEYS = {
-    TOKEN: "TOKEN",
+    TOKEN: "token",
 };

@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { initUser } from "../../redux/orebiSlice";
 
 const SignIn = () => {
     // Initial State
@@ -8,6 +10,8 @@ const SignIn = () => {
     const [errEmail, setErrEmail] = useState("");
     const [errPassword, setErrPassword] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (localStorage.getItem("token")) checkLogin();
@@ -25,8 +29,8 @@ const SignIn = () => {
                 else throw new Error("Chưa đăng nhập");
             })
             .then(data => {
+                dispatch(initUser(data?.user));
                 nav("/");
-                localStorage.setItem("user", JSON.stringify(data?.data));
             })
             .catch(err => {
                 localStorage.clear("token");
@@ -76,6 +80,7 @@ const SignIn = () => {
             })
             .then(data => {
                 localStorage.setItem("token", data?.token);
+                dispatch(initUser(data?.user));
                 localStorage.setItem("user", JSON.stringify(data?.user));
                 nav("/");
             })
