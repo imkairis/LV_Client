@@ -9,7 +9,9 @@ export const updateQuantity = async (id, quantity) => {
 };
 
 export const deleteItemCart = async id => {
-    return instanceAxios.delete(`/carts`, { product: id });
+    return instanceAxios.delete(`/carts`, {
+        data: { product: id },
+    });
 };
 
 export const clearCart = async () => {
