@@ -8,25 +8,35 @@ import { addToCart } from "../../../redux/orebiSlice";
 const Product = (props) => {
   const dispatch = useDispatch();
   const _id = props._id;
-
   const navigate = useNavigate();
+
   const handleProductDetails = () => {
     navigate(`/product/${_id}`, {
       state: { item: props },
     });
   };
 
+  const handleAddToCart = (e) => {
+    e.stopPropagation(); // Prevent navigation when adding to cart
+    dispatch(
+      addToCart({
+        ...props,
+        quantity: 1, // Set default quantity to 1
+      })
+    );
+  };
+
   return (
     <div
       className="w-full relative group h-full flex flex-col shadow cursor-pointer"
-      onClick={handleProductDetails} // Thêm onClick vào thẻ bao bọc sản phẩm
+      onClick={handleProductDetails}
     >
       <div className="max-w-80 max-h-80 relative overflow-y-hidden">
         <div>
           <Image
             className="w-full h-full"
             imgSrc={props?.images?.[0] || props.img}
-            alt="product image"
+            alt="Product Image"
             isServer={!props?.color}
           />
         </div>
@@ -36,16 +46,8 @@ const Product = (props) => {
         <div className="w-full h-8 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
           <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">
             <li
-              onClick={(e) => {
-                e.stopPropagation(); // Ngăn hành động chuyển hướng khi nhấn vào "Add to Cart"
-                dispatch(
-                  addToCart({
-                    ...props,
-                    quantity: 1,
-                  })
-                );
-              }}
-              className="text-[#767676] hover:text-primeColor text-sm font-normal flex items-center justify-start gap-2 hover:cursor-pointer mt-4 pb-1 duration-300 w-full pl-4" // thêm mt-4 để di chuyển dòng chữ xuống dưới
+              onClick={handleAddToCart}
+              className="text-[#767676] hover:text-primeColor text-sm font-normal flex items-center justify-start gap-2 hover:cursor-pointer mt-4 pb-1 duration-300 w-full pl-4"
             >
               Add to Cart
               <span>
