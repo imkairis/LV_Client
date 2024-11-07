@@ -7,18 +7,29 @@ import Modal from "../../Modal";
 import {
     createAddress,
     createObjectAddress,
+    deleteAddress,
+    updateAddress,
 } from "../../../services/user.service";
 import { updateUser } from "../../../redux/orebiSlice";
 
 function AddressSelection({ address, setAddress }) {
     const userInfo = useSelector(state => state.orebiReducer.userInfo);
-    console.log("userInfo", userInfo);
     const dispatch = useDispatch();
 
     const [openModal, setOpenModal] = useState(false);
+    const [modalUpdate, setModalUpdate] = useState({
+        isOpen: false,
+        address: null, 
+    });
 
-    const handleDeleteAddress = address => {
-        console.log("delete address", address);
+    const handleDeleteAddress = addressId => {
+        deleteAddress(userInfo._id, addressId).then((data) => {
+            dispatch(updateUser(data.data.data));
+        })
+    };
+
+    const handleUpdateAddressSuccess = userData => {
+        dispatch(updateUser(userData));
     };
 
     const userAddress = useMemo(() => {
@@ -39,10 +50,11 @@ function AddressSelection({ address, setAddress }) {
         return [];
     }, [userInfo.address]);
 
-    const handleAddAddressSuccess = address => {
-        setAddress(address);
+    const handleAddAddressSuccess = userData => {
+        console.log("add address suss",userData);
+        
         dispatch(
-            updateUser({ address: JSON.parse([...userAddress, address]) })
+            updateUser(userData)
         );
     };
 
@@ -74,7 +86,7 @@ function AddressSelection({ address, setAddress }) {
                             Bạn chưa có địa chỉ giao hàng
                         </p>
                     )}
-                    {userAddress?.map(ad => (
+                    {userAddress?.map((ad) => (
                         <div
                             key={ad._id}
                             className='flex items-center justify-between gap-3 p-3 border rounded'
@@ -93,13 +105,13 @@ function AddressSelection({ address, setAddress }) {
                             <div className='flex items-center gap-3'>
                                 <button
                                     className='text-blue-500 font-medium'
-                                    onClick={() => setAddress(ad)}
+                                    onClick={() => setModalUpdate({ isOpen: true, address: ad })}
                                 >
                                     Sửa
                                 </button>
                                 <button
                                     className='text-blue-500 font-medium'
-                                    onClick={() => handleDeleteAddress(address)}
+                                    onClick={() => handleDeleteAddress(ad._id)}
                                 >
                                     Xóa
                                 </button>
@@ -115,30 +127,52 @@ function AddressSelection({ address, setAddress }) {
                 onClose={() => setOpenModal(false)}
                 userId={userInfo._id}
             />
+            <ModalAddress
+                isOpen={modalUpdate.isOpen}
+                onSubmit={handleUpdateAddressSuccess}
+                onClose={() => setModalUpdate({ 
+                    isOpen: false, 
+                    address: null
+                })}
+                userId={userInfo._id}
+                address={modalUpdate.address}
+            />
         </>
     );
 }
 
 export default AddressSelection;
 
-const ModalAddress = ({ isOpen, onSubmit, onClose, userId }) => {
+const ModalAddress = ({ isOpen, onSubmit, onClose, userId, address }) => {
     const handleSubmit = e => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const address = createObjectAddress({
+        const objRaw = {
             name: formData.get("name"),
             phone: formData.get("phone"),
             address: formData.get("address"),
-        });
-        createAddress({
-            userId,
-            ...address,
-        })
-            .then(() => {
-                onSubmit(address);
-                onClose();
+        }
+        if (!address) {
+            const address = createObjectAddress(objRaw);
+            createAddress({
+                userId,
+                ...address,
             })
-            .catch(err => console.log(err));
+                .then((data) => {
+                    onSubmit(data.data.data);
+                    onClose();
+                })
+                .catch(err => console.log(err));
+            return;
+        }
+        
+        updateAddress(userId, {
+            ...objRaw,
+            _id: address._id,
+        }).then((data) => {
+            onSubmit(data.data.data);
+            onClose();
+        })
     };
 
     return (
@@ -146,18 +180,21 @@ const ModalAddress = ({ isOpen, onSubmit, onClose, userId }) => {
             <form onSubmit={handleSubmit}>
                 <div className='space-y-4'>
                     <input
+                        defaultValue={address?.name || ""}
                         type='text'
                         name='name'
                         placeholder='Name'
                         className='w-full p-2 border border-gray-300 rounded'
                     />
                     <input
+                        defaultValue={address?.phone || ""}
                         type='text'
                         name='phone'
                         placeholder='Phone'
                         className='w-full p-2 border border-gray-300 rounded'
                     />
                     <input
+                        defaultValue={address?.address || ""}
                         type='text'
                         name='address'
                         placeholder='Address Detail'
