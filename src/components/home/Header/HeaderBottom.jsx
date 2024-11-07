@@ -28,10 +28,21 @@ const HeaderBottom = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const ref = useRef();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
 
   useClickOutside(ref, () => {
     setShow(false);
   });
+
+  // Kiểm tra xem người dùng đã đăng nhập chưa
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true); // Người dùng đã đăng nhập
+    } else {
+      setIsLoggedIn(false); // Người dùng chưa đăng nhập
+    }
+  }, []);
 
   const fetchWithDebounce = useCallback(
     () =>
@@ -63,11 +74,9 @@ const HeaderBottom = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem("token");
-
     localStorage.removeItem("user");
-
+    setIsLoggedIn(false); // Cập nhật lại trạng thái đăng xuất
     setShowUser(false);
-
     navigate("/signin");
   };
 
@@ -166,41 +175,40 @@ const HeaderBottom = () => {
               </div>
             )}
           </div>
-          <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
-            <div onClick={() => setShowUser(!showUser)} className="flex">
-              <FaUser />
-              <FaCaretDown />
-            </div>
-            {showUser && (
-              <motion.ul
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-[#767676] h-auto p-4 pb-6"
+          <div className="flex gap-2 mt-1 lg:mt-0 items-center pr-4 cursor-pointer relative text-sm h-10">
+            {/* Kiểm tra trạng thái đăng nhập */}
+            {isLoggedIn ? (
+              <div
+                onClick={() => setShowUser(!showUser)}
+                className="flex items-center gap-2"
               >
-                <Link to="/signin">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Login
-                  </li>
-                </Link>
-                <Link onClick={() => setShowUser(false)} to="/signup">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Sign Up
-                  </li>
-                </Link>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Profile
-                </li>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Others
-                </li>
-                <li
-                  onClick={handleLogout}
-                  className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer"
-                >
-                  Log Out
-                </li>
-              </motion.ul>
+                <FaUser />
+                <FaCaretDown />
+                {showUser && (
+                  <motion.ul
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute top-6 left-0 z-50 bg-primeColor w-6rem text-[#767676] h-auto p-4 pb-6"
+                  >
+                    <Link to="/profile">
+                      <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                        Profile
+                      </li>
+                    </Link>
+                    <li
+                      onClick={handleLogout}
+                      className="text-gray-400 px-4 py-1  border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer"
+                    >
+                      Log Out
+                    </li>
+                  </motion.ul>
+                )}
+              </div>
+            ) : (
+              <Link to="/signin" className="text-primeColor">
+                <FaUser />
+              </Link>
             )}
             <Link to="/cart">
               <div className="relative">
@@ -232,12 +240,8 @@ function SearchProductItem({ onClick, item }) {
         isServer
       />
       <div className="flex flex-col gap-1">
-        <p className="font-semibold text-lg">{item.name}</p>
-        <p className="text-xs line-clamp-2">{item.description}</p>
-        <p className="text-sm">
-          Price:{" "}
-          <span className="text-primeColor font-semibold">${item.price}</span>
-        </p>
+        <p className="font-semibold text-lg">{item?.name}</p>
+        <p className="text-gray-400 text-[14px]">{item?.category?.name}</p>
       </div>
     </div>
   );
