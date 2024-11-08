@@ -107,41 +107,39 @@ const SignUp = () => {
         setAddress("");
       }
     }
-    registerRequest()
+    registerRequest();
   };
 
   const registerRequest = () => {
     fetch(`${import.meta.env.VITE_HOST}/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json', // nếu gói tin không có chưa file thì thêm dòng này, và body là json
+        "Content-Type": "application/json", // nếu gói tin không có chưa file thì thêm dòng này, và body là json
       },
-      body:  JSON.stringify({
-        username: email.split('@')[0], 
-        fullname: fullName, 
-        birthday, 
-        phone, 
-        address, 
-        email, 
-        password
+      body: JSON.stringify({
+        username: email.split("@")[0],
+        fullname: fullName,
+        birthday,
+        phone,
+        address,
+        email,
+        password,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) return res.json();
+        else throw new Error(res.json());
       })
-    })
-    .then(res => {
-      if(res.status === 200)
-        return res.json()
-      else
-        throw new Error(res.json())
-    })
-    .then(data => {
-      localStorage.setItem('token', data?.token)
-      nav('/signin')
-    })
-    .catch(err => console.error(err));
-  }
+      .then((data) => {
+        localStorage.setItem("token", data?.token);
+        nav("/signin");
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
+    <div className="w-full min-h-screen flex items-center justify-center">
+      <div className="w-full lgl:w-[500px] h-auto flex flex-col justify-center">
         {successMsg ? (
           <div className="w-[500px]">
             <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
@@ -158,9 +156,9 @@ const SignUp = () => {
           </div>
         ) : (
           <form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
-            <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
-              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
-                Create your account
+            <div className="px-6 py-4 w-full h-[85%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor border border-gray-300 shadow-md rounded-md">
+              <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
+                Đăng ký tài khoản
               </h1>
               <div className="flex flex-col gap-3">
                 {/* Full Name */}
@@ -173,7 +171,7 @@ const SignUp = () => {
                     value={fullName}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
-                    placeholder="eg. John Doe"
+                    placeholder="Hồ Nhỉ Khang"
                   />
                   {errFullName && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -192,7 +190,7 @@ const SignUp = () => {
                     value={email}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
-                    placeholder="eg. johndoe@email.com"
+                    placeholder="khanghonhi62@gmail.com"
                   />
                   {errEmail && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -229,7 +227,7 @@ const SignUp = () => {
                     value={phone}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="tel"
-                    placeholder="eg. 123-456-7890"
+                    placeholder="0965370763"
                   />
                   {errPhone && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -248,7 +246,7 @@ const SignUp = () => {
                     value={address}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
-                    placeholder="eg. 123 Main St, City, Country"
+                    placeholder="Xuân Khánh, Ninh Kiều, Cần Thơ"
                   />
                   {errAddress && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -267,7 +265,7 @@ const SignUp = () => {
                     value={password}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="xxxxxxxx"
                   />
                   {errPassword && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -290,15 +288,8 @@ const SignUp = () => {
                     type="checkbox"
                   />
                   <p className="text-base text-gray-600">
-                    By signing up, you agree to the{" "}
-                    <span className="font-medium hover:underline underline-offset-1 decoration-[1px] cursor-pointer">
-                      Privacy Policy
-                    </span>{" "}
-                    &{" "}
-                    <span className="font-medium hover:underline underline-offset-1 decoration-[1px] cursor-pointer">
-                      Terms of Service
-                    </span>
-                    .
+                    Đăng ký tài khoản đồng nghĩa bạn sẽ chấp nhận các chính sách
+                    của chúng tôi
                   </p>
                 </div>
               </div>
