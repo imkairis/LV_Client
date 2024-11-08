@@ -19,13 +19,13 @@ function AddressSelection({ address, setAddress }) {
     const [openModal, setOpenModal] = useState(false);
     const [modalUpdate, setModalUpdate] = useState({
         isOpen: false,
-        address: null, 
+        address: null,
     });
 
     const handleDeleteAddress = addressId => {
-        deleteAddress(userInfo._id, addressId).then((data) => {
+        deleteAddress(userInfo._id, addressId).then(data => {
             dispatch(updateUser(data.data.data));
-        })
+        });
     };
 
     const handleUpdateAddressSuccess = userData => {
@@ -51,18 +51,16 @@ function AddressSelection({ address, setAddress }) {
     }, [userInfo.address]);
 
     const handleAddAddressSuccess = userData => {
-        console.log("add address suss",userData);
-        
-        dispatch(
-            updateUser(userData)
-        );
+        console.log("add address suss", userData);
+
+        dispatch(updateUser(userData));
     };
 
     useEffect(() => {
-        if (userInfo?.address?.length > 0) {
-            setAddress(userInfo.address[0]);
+        if (userAddress.length > 0) {
+            setAddress(userAddress[0]);
         }
-    }, [setAddress, userInfo.address]);
+    }, [setAddress, userAddress]);
 
     return (
         <>
@@ -86,18 +84,18 @@ function AddressSelection({ address, setAddress }) {
                             Bạn chưa có địa chỉ giao hàng
                         </p>
                     )}
-                    {userAddress?.map((ad) => (
+                    {userAddress?.map(ad => (
                         <div
                             key={ad._id}
                             className='flex items-center justify-between gap-3 p-3 border rounded'
                         >
-                            <div className='flex items-center flex-1'>
+                            <div
+                                className='flex items-center flex-1 cursor-pointer'
+                                onClick={() => setAddress(ad)}
+                            >
                                 <input
                                     type='radio'
-                                    name='selectedAddress'
-                                    value={ad._id}
                                     checked={address?._id === ad._id}
-                                    onChange={() => setAddress(address)}
                                     className='mr-2'
                                 />
                                 <span>{`${ad.name} | ${ad.address} | ${ad.phone}`}</span>
@@ -105,7 +103,12 @@ function AddressSelection({ address, setAddress }) {
                             <div className='flex items-center gap-3'>
                                 <button
                                     className='text-blue-500 font-medium'
-                                    onClick={() => setModalUpdate({ isOpen: true, address: ad })}
+                                    onClick={() =>
+                                        setModalUpdate({
+                                            isOpen: true,
+                                            address: ad,
+                                        })
+                                    }
                                 >
                                     Sửa
                                 </button>
@@ -130,10 +133,12 @@ function AddressSelection({ address, setAddress }) {
             <ModalAddress
                 isOpen={modalUpdate.isOpen}
                 onSubmit={handleUpdateAddressSuccess}
-                onClose={() => setModalUpdate({ 
-                    isOpen: false, 
-                    address: null
-                })}
+                onClose={() =>
+                    setModalUpdate({
+                        isOpen: false,
+                        address: null,
+                    })
+                }
                 userId={userInfo._id}
                 address={modalUpdate.address}
             />
@@ -151,28 +156,28 @@ const ModalAddress = ({ isOpen, onSubmit, onClose, userId, address }) => {
             name: formData.get("name"),
             phone: formData.get("phone"),
             address: formData.get("address"),
-        }
+        };
         if (!address) {
             const address = createObjectAddress(objRaw);
             createAddress({
                 userId,
                 ...address,
             })
-                .then((data) => {
+                .then(data => {
                     onSubmit(data.data.data);
                     onClose();
                 })
                 .catch(err => console.log(err));
             return;
         }
-        
+
         updateAddress(userId, {
             ...objRaw,
             _id: address._id,
-        }).then((data) => {
+        }).then(data => {
             onSubmit(data.data.data);
             onClose();
-        })
+        });
     };
 
     return (
