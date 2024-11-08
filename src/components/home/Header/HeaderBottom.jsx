@@ -157,7 +157,7 @@ const HeaderBottom = () => {
                 className="flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px]"
                 type="text"
                 onChange={handleSearch}
-                placeholder="Search your products here"
+                placeholder="Nhập tên sản phẩm bạn cần tìm kiếm sản phẩm bạn cần"
               />
               <FaSearch className="w-5 h-5" />
             </form>
