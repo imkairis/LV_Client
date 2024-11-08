@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import Slider from "react-slick";
 import Image from "../designLayouts/Image";
 import bannerImgOne from "../../assets/images/bannerImgOne.png";
@@ -15,6 +15,7 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
+
     beforeChange: (prev, next) => {
       setDocActive(next);
     },
@@ -97,24 +98,54 @@ const Banner = () => {
       },
     ],
   };
+  const nav = useNavigate();
+
+  const handleClick = (to) => {
+    nav(to);
+  };
   return (
+    // <div className="w-full bg-white">
+    //   <Slider {...settings}>
+    //     <Link to="shop?targets=6723b996a8cc66e7c07a8363">
+    //       <div>
+    //         <Image imgSrc={bannerImgOne} />
+    //       </div>
+    //     </Link>
+    //     <Link to="shop?targets=6723b9c2a8cc66e7c07a8371">
+    //       <div>
+    //         <Image imgSrc={bannerImgTwo} />
+    //       </div>
+    //     </Link>
+    //     <Link to="shop?targets=6723b99fa8cc66e7c07a8368">
+    //       <div>
+    //         <Image imgSrc={bannerImgThree} />
+    //       </div>
+    //     </Link>
+    //   </Slider>
+    // </div>
     <div className="w-full bg-white">
       <Slider {...settings}>
-        <Link to="shop?targets=6723b996a8cc66e7c07a8363">
+        <div
+          onClick={() => handleClick("shop?targets=6723b996a8cc66e7c07a8363")}
+        >
           <div>
             <Image imgSrc={bannerImgOne} />
           </div>
-        </Link>
-        <Link to="shop?targets=6723b9c2a8cc66e7c07a8371">
+        </div>
+        <div
+          onClick={() => handleClick("shop?targets=6723b9c2a8cc66e7c07a8371")}
+        >
           <div>
             <Image imgSrc={bannerImgTwo} />
           </div>
-        </Link>
-        <Link to="shop?targets=6723b99fa8cc66e7c07a8368">
+        </div>
+        <div
+          onClick={() => handleClick("shop?targets=6723b9c2a8cc66e7c07a8371")}
+        >
           <div>
             <Image imgSrc={bannerImgThree} />
           </div>
-        </Link>
+        </div>
       </Slider>
     </div>
   );
