@@ -22,11 +22,10 @@ instanceAxios.interceptors.response.use(
     },
     error => {
         // Redirect to login when token expired
-        console.log(error);
         if (error?.status === 401) {
-            // const currentPath = window.location.pathname;
-            // window.location.href = `/signin?redirect=${currentPath}`;
-            // return;
+            const currentPath = window.location.pathname;
+            window.location.href = `/signin?redirect=${currentPath}`;
+            return;
         }
 
         return error;
