@@ -37,7 +37,7 @@ export const navBarList = [
   },
   {
     _id: 1005,
-    title: "Journal",
+    title: "Adopt",
     link: "/journal",
   },
 ];

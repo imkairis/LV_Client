@@ -17,8 +17,8 @@ module.exports = {
         xl: "1280px",
       },
       fontFamily: {
-        bodyFont: ["DM Sans", "sans-serif"],
-        titleFont: ["Poppins", "sans-serif"],
+        bodyFont: ["Inter", "sans-serif"],
+        titleFont: ["Inter", "sans-serif"],
       },
       colors: {
         primeColor: "#262626",
@@ -31,5 +31,3 @@ module.exports = {
   },
   plugins: [require("tailwind-scrollbar")],
 };
-
-
