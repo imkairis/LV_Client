@@ -9,6 +9,7 @@ function AccountInfor() {
     phoneNumber: "0707278154",
     gender: "Male",
     dateOfBirth: "2024-03-21",
+    address: "Ha Noi",
   };
   const optionGender = ["Male", "Female", "Other"];
 
@@ -25,6 +26,7 @@ function AccountInfor() {
             phoneNumber: fakeinfor?.phoneNumber ?? "",
             gender: fakeinfor?.gender ?? "",
             dateOfBirth: fakeinfor?.dateOfBirth ?? "",
+            address: fakeinfor?.address ?? "",
           }}
           onSubmit={(values) => {
             // Submit logic here
@@ -43,6 +45,20 @@ function AccountInfor() {
                 type="text"
                 id="username"
                 name="username"
+                className="w-full p-3 border border-gray-300 rounded-md text-base"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="fullname"
+                className="block text-sm font-semibold mb-2"
+              >
+                Fullname:
+              </label>
+              <Field
+                type="text"
+                id="fullname"
+                name="fullname"
                 className="w-full p-3 border border-gray-300 rounded-md text-base"
               />
             </div>
@@ -79,28 +95,6 @@ function AccountInfor() {
 
             <div className="mb-6">
               <label
-                htmlFor="gender"
-                className="block text-sm font-semibold mb-2"
-              >
-                Gender:
-              </label>
-              <Field
-                as="select"
-                id="gender"
-                name="gender"
-                className="w-full p-3 border border-gray-300 rounded-md text-base"
-              >
-                <option value="">Select Gender</option>
-                {optionGender.map((item, id) => (
-                  <option key={id} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-
-            <div className="mb-6">
-              <label
                 htmlFor="dateOfBirth"
                 className="block text-sm font-semibold mb-2"
               >
@@ -110,6 +104,20 @@ function AccountInfor() {
                 type="date"
                 id="dateOfBirth"
                 name="dateOfBirth"
+                className="w-full p-3 border border-gray-300 rounded-md text-base"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="address"
+                className="block text-sm font-semibold mb-2"
+              >
+                Address:
+              </label>
+              <Field
+                type="text"
+                id="address"
+                name="address"
                 className="w-full p-3 border border-gray-300 rounded-md text-base"
               />
             </div>

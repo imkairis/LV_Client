@@ -27,7 +27,7 @@ function AccountPage() {
                   }`}
                   onClick={() => handleTabClick(1)}
                 >
-                  <a href="#">TỔNG QUAN</a>
+                  <a href="#">THÔNG TIN TÀI KHOẢN</a>
                 </li>
                 <li
                   className={`${
@@ -37,7 +37,7 @@ function AccountPage() {
                   }`}
                   onClick={() => handleTabClick(2)}
                 >
-                  <a href="#">THÔNG TIN TÀI KHOẢN</a>
+                  <a href="#">ĐỔI MẬT KHẨU</a>
                 </li>
                 <li
                   className={`${
@@ -46,16 +46,6 @@ function AccountPage() {
                       : ""
                   }`}
                   onClick={() => handleTabClick(3)}
-                >
-                  <a href="#">ĐỔI MẬT KHẨU</a>
-                </li>
-                <li
-                  className={`${
-                    activeTab === 4
-                      ? "text-indigo-600 font-bold border-b-2 border-indigo-600"
-                      : ""
-                  }`}
-                  onClick={() => handleTabClick(4)}
                 >
                   <a href="#">ĐƠN HÀNG</a>
                 </li>
@@ -67,10 +57,10 @@ function AccountPage() {
           </div>
           <div className="w-3/4 p-4">
             <div className="tab-content">
-              {activeTab === 1 && <AccountOverview />}
-              {activeTab === 2 && <AccountInfor />}
-              {activeTab === 3 && <AccountChangePassword />}
-              {activeTab === 4 && <AccountOrder />}
+              {/* {activeTab === 1 && <AccountOverview />} */}
+              {activeTab === 1 && <AccountInfor />}
+              {activeTab === 2 && <AccountChangePassword />}
+              {activeTab === 3 && <AccountOrder />}
             </div>
           </div>
         </div>
