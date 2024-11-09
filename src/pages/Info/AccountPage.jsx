@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import AccountOverview from "./AccountOverview";
 import AccountInfor from "./AccountInfor";
 import AccountChangePassword from "./AccountChangePassword";
 import AccountOrder from "./AccountOrder";
