@@ -1,10 +1,10 @@
 import {
-    createBrowserRouter,
-    RouterProvider,
-    Outlet,
-    createRoutesFromElements,
-    Route,
-    ScrollRestoration,
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  createRoutesFromElements,
+  Route,
+  ScrollRestoration,
 } from "react-router-dom";
 import Header from "./components/home/Header/Header";
 import HeaderBottom from "./components/home/Header/HeaderBottom";
@@ -22,54 +22,53 @@ import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
 import Checkout from "./pages/Checkout/index";
 import ThanksPage from "./pages/Thanks";
+import Info from "./pages/Info/AccountPage";
 import { Toaster } from "react-hot-toast";
 
 const Layout = () => {
-    return (
-        <div>
-            <Toaster position='top-center' reverseOrder={false} />
-            <Header />
-            <HeaderBottom />
-            <SpecialCase />
-            <ScrollRestoration />
-            <Outlet />
-        </div>
-    );
+  return (
+    <div>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Header />
+      <HeaderBottom />
+      <SpecialCase />
+      <ScrollRestoration />
+      <Outlet />
+    </div>
+  );
 };
 
 const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route>
-            <Route path='/' element={<Layout />}>
-                {/* ==================== Header Navlink Start here =================== */}
-                <Route index element={<Home />}></Route>
-                <Route path='/shop' element={<Shop />}></Route>
-                <Route path='/about' element={<About />}></Route>
-                <Route path='/contact' element={<Contact />}></Route>
-                <Route path='/journal' element={<Journal />}></Route>
-                {/* ==================== Header Navlink End here ===================== */}
-                <Route path='/offer' element={<Offer />}></Route>
-                <Route
-                    path='/product/:_id'
-                    element={<ProductDetails />}
-                ></Route>
-                <Route path='/cart' element={<Cart />}></Route>
-                <Route path='/checkout' element={<Checkout />}></Route>
-                <Route path='/paymentgateway' element={<Payment />}></Route>
-                <Route path='/thanks' element={<ThanksPage />} />
-            </Route>
-            <Route path='/signup' element={<SignUp />}></Route>
-            <Route path='/signin' element={<SignIn />}></Route>
-        </Route>
-    )
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<Layout />}>
+        {/* ==================== Header Navlink Start here =================== */}
+        <Route index element={<Home />}></Route>
+        <Route path="/shop" element={<Shop />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/journal" element={<Journal />}></Route>
+        <Route path="/info" element={<Info />}></Route>
+        {/* ==================== Header Navlink End here ===================== */}
+        <Route path="/offer" element={<Offer />}></Route>
+        <Route path="/product/:_id" element={<ProductDetails />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/paymentgateway" element={<Payment />}></Route>
+        <Route path="/thanks" element={<ThanksPage />} />
+      </Route>
+      <Route path="/signup" element={<SignUp />}></Route>
+      <Route path="/signin" element={<SignIn />}></Route>
+    </Route>
+  )
 );
 
 function App() {
-    return (
-        <div className='font-bodyFont'>
-            <RouterProvider router={router} />
-        </div>
-    );
+  return (
+    <div className="font-bodyFont">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;
