@@ -29,6 +29,14 @@ function CheckoutPage() {
   }, [products]);
 
   const handleCreateOrder = () => {
+    // Kiểm tra nếu chưa chọn địa chỉ, phương thức giao hàng hoặc phương thức thanh toán
+    if (address.length === 0 || !shippingCharge || !paymentMethod) {
+      alert(
+        "Vui lòng điền đầy đủ thông tin địa chỉ, phương thức giao hàng và phương thức thanh toán trước khi thanh toán."
+      );
+      return;
+    }
+
     if (paymentMethod === "vnpay") {
       createOrder({
         productOrder: products.map((item) => item._id),
@@ -53,15 +61,12 @@ function CheckoutPage() {
           })
             .then((res) => res.json())
             .then((data) => {
-              //   console.log(data?.vnpUrl);
               window.open(data?.vnpUrl, "_self");
               dispatch(deleteItem(products.map((item) => item._id)));
             })
             .catch((error) => {
               console.log(error);
             });
-          //   dispatch(deleteItem(products.map((item) => item._id)));
-          //   nav("/thanks");
         });
 
       return;
