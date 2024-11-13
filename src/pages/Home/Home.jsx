@@ -10,7 +10,7 @@ const Home = () => {
       <Banner />
       <BannerBottom />
       <div className="max-w-container mx-auto px-4">
-        {/* <NewArrivals /> */}
+        <NewArrivals />
         {/* <BestSellers />
         <SpecialOffers /> */}
       </div>

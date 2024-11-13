@@ -34,10 +34,10 @@ const ProductDetails = () => {
   }, [_id, location.pathname, location.state?.item]);
 
   return (
-    <div className="w-full mx-auto border-b-[1px] border-b-gray-300 bg-white">
+    <div className="w-full mx-auto border-b-[1px] border-b-gray-300 bg-gray-50">
       {" "}
       {/* Màu nền toàn phần */}
-      <div className="max-w-container mx-auto px-8 bg-white py-8 rounded-lg">
+      <div className="max-w-container mx-auto px-8 bg-gray-50 py-8 rounded-lg">
         {" "}
         {/* Khung nền chứa nội dung */}
         <Breadcrumbs title="" prevLocation={prevLocation} />
@@ -66,6 +66,14 @@ const ProductDetails = () => {
               <strong>Đối tượng sử dụng:</strong>{" "}
               {productInfo?.targetAudience?.name}
             </p>
+
+            <p className="font-medium text-lg mt-4">
+              <strong>Xuất xứ:</strong> {productInfo.origin}
+            </p>
+            <p className="font-medium text-lg mt-4">
+              <strong>Tình trạng:</strong>{" "}
+            </p>
+
             <h6 className="text-2xl font-semibold leading-relaxed mt-4">
               {parseInt(productInfo.price).toLocaleString("vi-VN")} VND
             </h6>
@@ -85,13 +93,13 @@ const ProductDetails = () => {
                 >
                   +
                 </button>
+                <button
+                  onClick={() => handleAddToCart(productInfo)}
+                  className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"
+                >
+                  Add to Cart
+                </button>
               </div>
-              <button
-                onClick={() => handleAddToCart(productInfo)}
-                className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"
-              >
-                Add to Cart
-              </button>
             </div>
           </div>
         </div>
@@ -117,16 +125,9 @@ const ProductDetails = () => {
             {!isCollapsed && (
               <>
                 <p className="font-medium text-lg mt-4">
-                  <strong>Xuất xứ:</strong> {productInfo.origin}
-                </p>
-                <p className="font-medium text-lg mt-4">
                   <strong>Khối lượng:</strong> {productInfo.weight} kg
                 </p>
 
-                <p className="font-medium text-lg mt-4">
-                  <strong>Nhóm tuổi sử dụng:</strong>{" "}
-                  {productInfo?.ageGroup?.name}
-                </p>
                 <p className="font-medium text-lg mt-4">
                   <strong>Thành phần:</strong> {productInfo.element}
                 </p>
