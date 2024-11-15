@@ -56,7 +56,7 @@ function Type({}) {
               Đa dạng các loại thức ăn cho chó mèo đến từ nhiều thương hiệu khác
               nhau
             </p>
-            <span className="mt-4 block rounded-md border border-indigo-900 bg-indigo-900 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-indigo-900">
+            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
               Mua Ngay Thức Ăn
             </span>
           </div>
@@ -81,7 +81,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Các loại chuồng đa dạng kích cỡ, loại, vật liêu cho chó mèo
             </p>
-            <span className="mt-4 block rounded-md border border-indigo-900 bg-indigo-900 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-indigo-900">
+            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-4000">
               Mua Ngay Chuồng
             </span>
           </div>
@@ -106,7 +106,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Các loại đồ chơi khác nhau cho chó mèo của bạn
             </p>
-            <span className="mt-4 block rounded-md border border-indigo-900 bg-indigo-900 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-indigo-900">
+            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
               Mua Ngay Đồ Chơi
             </span>
           </div>
@@ -129,7 +129,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Thuốc sử dụng riêng cho chó mèo với tình trạng gặp phải khác nhau
             </p>
-            <span className="mt-4 block rounded-md border border-indigo-900 bg-indigo-900 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-indigo-900">
+            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
               Mua Ngay Thuốc
             </span>
           </div>

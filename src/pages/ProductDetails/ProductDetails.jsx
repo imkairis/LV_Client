@@ -52,7 +52,7 @@ const ProductDetails = () => {
 
           {/* Thông tin sản phẩm */}
           <div className="bg-white shadow-lg rounded-lg p-6 border-gray-300 col-span-2">
-            <span className="text-green-500 font-semibold mt-4">
+            <span className="text-sky-500 font-semibold mt-4">
               {productInfo?.type?.name}
             </span>
             <h1 className="text-3xl font-bold leading-relaxed mt-4">
@@ -79,7 +79,7 @@ const ProductDetails = () => {
               <div className="flex flex-row items-center gap-4">
                 <button
                   onClick={() => handleAddToCart(productInfo)}
-                  className="bg-green-500 text-white font-semibold py-3 px-8 rounded-xl h-full transition-all duration-300 hover:bg-green-600"
+                  className="bg-sky-400 text-white font-semibold py-3 px-8 rounded-xl h-full transition-all duration-300 hover:bg-sky-600"
                 >
                   Thêm vào giỏ
                 </button>
@@ -129,7 +129,7 @@ const ProductDetails = () => {
             {/* Nút thu gọn/mở rộng */}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="bg-black text-white font-semibold py-2 px-6 rounded-lg mt-4 mx-auto block transition-all duration-300 hover:bg-slate-600"
+              className="bg-sky-400 text-white font-semibold py-2 px-6 rounded-lg mt-4 mx-auto block transition-all duration-300 hover:bg-sky-600"
             >
               {isCollapsed ? "Xem thêm" : "Thu gọn"}
             </button>

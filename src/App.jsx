@@ -26,6 +26,8 @@ import Info from "./pages/Info/AccountPage";
 import { Toaster } from "react-hot-toast";
 import Adopt from "./pages/Adopt/AdoptPage";
 import AdoptDetail from "./pages/Adopt/AdoptDetail";
+import AddPetForm from "./components/Adopt/AddAdopt";
+import Footer from "./components/home/Footer/Footer";
 const Layout = () => {
   return (
     <div>
@@ -35,6 +37,7 @@ const Layout = () => {
       <SpecialCase />
       <ScrollRestoration />
       <Outlet />
+      <Footer />
     </div>
   );
 };
@@ -59,6 +62,7 @@ const router = createBrowserRouter(
         <Route path="/thanks" element={<ThanksPage />} />
         <Route path="/adopt" element={<Adopt />} />
         <Route path="/adopt/:id" element={<AdoptDetail />} />
+        <Route path="/addpet" element={<AddPetForm />} />
       </Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/signin" element={<SignIn />}></Route>

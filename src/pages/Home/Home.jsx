@@ -5,6 +5,7 @@ import NewArrivals from "../../components/home/NewArrivals/NewArrivals";
 import SpecialOffers from "../../components/home/SpecialOffers/SpecialOffers";
 import Brand from "../../components/home/Brand/brand";
 import Type from "../../components/home/ProductType/Type";
+import { AdoptHero } from "../../components/home/AdoptHero/AdoptHero";
 // import Hero from "../../components/home/Hero/Hero";
 const Home = () => {
   return (
@@ -14,7 +15,9 @@ const Home = () => {
       <div className="max-w-container mx-auto px-4">
         {/* <NewArrivals /> */}
         <Type />
+        <AdoptHero />
         <Brand />
+
         {/* <SpecialOffers /> */}
 
         {/* <Hero />
