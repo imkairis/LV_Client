@@ -38,7 +38,7 @@ export const navBarList = [
   {
     _id: 1005,
     title: "Adopt",
-    link: "/journal",
+    link: "/adopt",
   },
 ];
 // =================== NavBarList End here ======================

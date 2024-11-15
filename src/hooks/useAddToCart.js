@@ -7,9 +7,9 @@ export const useAddToCart = () => {
     const dispatch = useDispatch();
     const { active } = usePromiseWithToast({
         callback: product => addToCartService(product._id),
-        successMessage: "Product added to cart",
-        errorMessage: "Failed to add product to cart",
-        loadingMessage: "Adding product to cart...",
+        successMessage: "Đã thêm sản phẩm vào giỏ hàng",
+        errorMessage: "Thêm sản phẩm thất bại",
+        loadingMessage: "Đang thêm vào giỏ hàng.",
         successCallback: (_, data) => {
             dispatch(
                 addToCart({

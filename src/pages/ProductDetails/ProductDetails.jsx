@@ -7,6 +7,7 @@ import Image from "../../components/designLayouts/Image";
 import { formatDate } from "../../utils/utils";
 import ImgCD from "../../assets/images/BottomProduct.png";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import Slider from "react-slick";
 
 const ProductDetails = () => {
   const location = useLocation();
@@ -41,21 +42,17 @@ const ProductDetails = () => {
         {" "}
         {/* Khung nền chứa nội dung */}
         <Breadcrumbs title="" prevLocation={prevLocation} />
-        <div className="flex flex-col justify-between lg:flex-row gap-8 mt-5">
+        <div className="md:grid justify-between md:grid-cols-3 gap-8 mt-5">
           {/* Hình ảnh sản phẩm */}
-          <div className="flex flex-col gap-6 lg:w-2/4">
-            <div className="p-4 bg-white shadow-lg rounded-lg  border-gray-300">
-              <Image
-                imgSrc={productInfo?.img || productInfo?.images?.[0]}
-                isServer={productInfo?.images}
-                alt={productInfo.img}
-              />
+          <div className="col-span-1">
+            <div className="p-4 bg-white shadow-lg rounded-lg w-full border-gray-300 md:h-full">
+              <SlideImage images={productInfo?.images} />
             </div>
           </div>
 
           {/* Thông tin sản phẩm */}
-          <div className="bg-white shadow-lg rounded-lg p-6 border-gray-300 w-full">
-            <span className="text-violet-600 font-semibold mt-4">
+          <div className="bg-white shadow-lg rounded-lg p-6 border-gray-300 col-span-2">
+            <span className="text-green-500 font-semibold mt-4">
               {productInfo?.type?.name}
             </span>
             <h1 className="text-3xl font-bold leading-relaxed mt-4">
@@ -81,23 +78,10 @@ const ProductDetails = () => {
             <div className="flex flex-row items-center gap-12 mt-6">
               <div className="flex flex-row items-center gap-4">
                 <button
-                  className="bg-gray-200 py-2 px-5 rounded-lg text-violet-800 text-3xl"
-                  onClick={() => setAmount((prev) => (prev > 1 ? prev - 1 : 1))}
-                >
-                  -
-                </button>
-                <span className="py-4 px-6 rounded-lg">{amount}</span>
-                <button
-                  className="bg-gray-200 py-2 px-4 rounded-lg text-violet-800 text-3xl"
-                  onClick={() => setAmount((prev) => prev + 1)}
-                >
-                  +
-                </button>
-                <button
                   onClick={() => handleAddToCart(productInfo)}
-                  className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"
+                  className="bg-green-500 text-white font-semibold py-3 px-8 rounded-xl h-full transition-all duration-300 hover:bg-green-600"
                 >
-                  Add to Cart
+                  Thêm vào giỏ
                 </button>
               </div>
             </div>
@@ -145,7 +129,7 @@ const ProductDetails = () => {
             {/* Nút thu gọn/mở rộng */}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="bg-violet-800 text-white font-semibold py-2 px-6 rounded-lg mt-4 mx-auto block"
+              className="bg-black text-white font-semibold py-2 px-6 rounded-lg mt-4 mx-auto block transition-all duration-300 hover:bg-slate-600"
             >
               {isCollapsed ? "Xem thêm" : "Thu gọn"}
             </button>
@@ -161,3 +145,45 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+const SlideImage = ({ images }) => {
+  console.log(images);
+  const settings = {
+    customPaging: function (i) {
+      const img = images[i];
+      return (
+        <li>
+          <a>
+            <Image
+              imgSrc={img}
+              isServer
+              alt={img}
+              className="size-12 object-cover"
+            />
+          </a>
+        </li>
+      );
+    },
+    dots: true,
+    appendDots: (dots) => (
+      <div>
+        <ul className="flex justify-center gap-2"> {dots} </ul>
+      </div>
+    ),
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
+  return (
+    <Slider {...settings}>
+      {images?.map((image, index) => (
+        <div key={index}>
+          <Image imgSrc={image} isServer alt={image} />
+        </div>
+      ))}
+    </Slider>
+  );
+};

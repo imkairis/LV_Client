@@ -1,68 +1,77 @@
 import { FaShoppingCart } from "react-icons/fa";
-import Image from "../../designLayouts/Image";
-import Badge from "./Badge";
 import { useNavigate } from "react-router-dom";
 import { useAddToCart } from "../../../hooks/useAddToCart";
+import Image from "../../designLayouts/Image";
 
-const Product = props => {
-    const { handleAddToCart: actionAdd } = useAddToCart();
-    const _id = props._id;
-    const navigate = useNavigate();
+const Product = (props) => {
+  const { handleAddToCart: actionAdd } = useAddToCart();
+  const _id = props._id;
+  const navigate = useNavigate();
 
-    const handleProductDetails = () => {
-        navigate(`/product/${_id}`, {
-            state: { item: props },
-        });
-    };
+  const handleProductDetails = () => {
+    navigate(`/product/${_id}`, {
+      state: { item: props },
+    });
+  };
 
-    const handleAddToCart = e => {
-        e.stopPropagation();
-        actionAdd(props);
-    };
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Ngừng hành động mặc định của sự kiện (chẳng hạn như tải lại trang)
+    e.stopPropagation(); // Ngừng sự kiện bubble lên các phần tử cha
+    actionAdd(props); // Thực hiện chức năng thêm sản phẩm vào giỏ hàng
+  };
 
-    return (
-        <div
-            className='w-full relative group h-full flex flex-col shadow cursor-pointer'
-            onClick={handleProductDetails}
-        >
-            <div className='max-w-80 max-h-80 relative overflow-y-hidden'>
-                <div>
-                    <Image
-                        className='w-full h-full'
-                        imgSrc={props?.images?.[0] || props.img}
-                        alt='Product Image'
-                        isServer={!props?.color}
-                    />
-                </div>
-                <div className='absolute top-6 left-8'>
-                    {props.badge && <Badge text='New' />}
-                </div>
-                <div className='w-full h-8 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700'>
-                    <ul className='w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r'>
-                        <li
-                            onClick={handleAddToCart}
-                            className='text-[#767676] hover:text-primeColor text-sm font-normal flex items-center justify-start gap-2 hover:cursor-pointer mt-4 pb-1 duration-300 w-full pl-4'
-                        >
-                            Add to Cart
-                            <span>
-                                <FaShoppingCart />
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className='max-w-80 py-6 pb-2 flex-1 flex flex-col gap-1 border-[1px] border-t-0 px-4'>
-                <div className='flex items-center justify-between font-titleFont flex-1'>
-                    <h2 className='text-lg text-primeColor font-bold line-clamp-2'>
-                        {props?.productName || props?.name}
-                    </h2>
-                    <p className='text-[#767676] text-[14px]'>
-                        {parseInt(props.price).toLocaleString("vi-VN")} VND
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <a
+      href="#"
+      className="group relative block overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+      onClick={handleProductDetails}
+    >
+      {/* Wishlist Button */}
+
+      <div>
+        <Image
+          className="w-full h-full object-cover rounded-t-lg"
+          imgSrc={props?.images?.[0] || props.img}
+          alt="Product Image"
+          isServer={!props?.color}
+        />
+      </div>
+
+      {/* Product Info */}
+      <div className="relative border border-gray-100 bg-white p-6 rounded-b-lg">
+        <p className="text-gray-700">
+          {parseInt(props?.price).toLocaleString("vi-VN")} VND
+          {props?.originalPrice && (
+            <span className="text-gray-400 line-through">
+              {parseInt(props.originalPrice).toLocaleString("vi-VN")} VND
+            </span>
+          )}
+        </p>
+
+        {/* Giới hạn ký tự của productName */}
+        <h3 className="mt-1.5 text-lg font-medium text-gray-900 line-clamp-2">
+          {props?.name || "Product Name"}
+        </h3>
+
+        {/* Add to Cart / Buy Now Buttons */}
+        <form className="mt-4 flex gap-4">
+          <button
+            onClick={handleAddToCart} // Đảm bảo gọi hàm mà không làm trang tải lại
+            className="block w-full rounded bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
+          >
+            Thêm vào giỏ
+          </button>
+
+          <button
+            type="button"
+            className="block w-full rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105"
+          >
+            Xem
+          </button>
+        </form>
+      </div>
+    </a>
+  );
 };
 
 export default Product;

@@ -24,7 +24,8 @@ import Checkout from "./pages/Checkout/index";
 import ThanksPage from "./pages/Thanks";
 import Info from "./pages/Info/AccountPage";
 import { Toaster } from "react-hot-toast";
-
+import Adopt from "./pages/Adopt/AdoptPage";
+import AdoptDetail from "./pages/Adopt/AdoptDetail";
 const Layout = () => {
   return (
     <div>
@@ -56,6 +57,8 @@ const router = createBrowserRouter(
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/paymentgateway" element={<Payment />}></Route>
         <Route path="/thanks" element={<ThanksPage />} />
+        <Route path="/adopt" element={<Adopt />} />
+        <Route path="/adopt/:id" element={<AdoptDetail />} />
       </Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
