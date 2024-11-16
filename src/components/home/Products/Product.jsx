@@ -55,12 +55,21 @@ const Product = (props) => {
 
         {/* Add to Cart / Buy Now Buttons */}
         <form className="mt-4 flex gap-4">
-          <button
-            onClick={handleAddToCart} // Đảm bảo gọi hàm mà không làm trang tải lại
-            className="block w-full rounded bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
-          >
-            Thêm vào giỏ
-          </button>
+          {props.quantity > 0 ? (
+            <button
+              onClick={handleAddToCart} // Đảm bảo gọi hàm mà không làm trang tải lại
+              className="block w-full rounded bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
+            >
+              Thêm vào giỏ
+            </button>
+          ) : (
+            <button
+              disabled
+              className="block w-full rounded bg-gray-400 px-4 py-3 text-sm font-medium text-gray-900 cursor-not-allowed"
+            >
+              Hết hàng
+            </button>
+          )}
 
           <button
             type="button"

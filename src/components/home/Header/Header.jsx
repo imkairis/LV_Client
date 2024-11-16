@@ -32,7 +32,7 @@ const Header = () => {
         <Flex className="flex items-center justify-between h-full">
           <Link to="/">
             <div>
-              <Image className="w-20 object-cover" imgSrc={logo} />
+              <Image className="w-60 object-cover" imgSrc={logo} />
             </div>
           </Link>
           <div>
@@ -71,7 +71,7 @@ const Header = () => {
                 >
                   <div className="w-full h-full bg-primeColor p-6">
                     <img
-                      className="w-28 mb-6"
+                      className="w-40 object-cover "
                       src={logoLight}
                       alt="logoLight"
                     />
@@ -91,51 +91,6 @@ const Header = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-4">
-                      <h1
-                        onClick={() => setCategory(!category)}
-                        className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                      >
-                        Shop by Category{" "}
-                        <span className="text-lg">{category ? "-" : "+"}</span>
-                      </h1>
-                      {category && (
-                        <motion.ul
-                          initial={{ y: 15, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.4 }}
-                          className="text-sm flex flex-col gap-1"
-                        >
-                          <li className="headerSedenavLi">Thức ăn</li>
-                          <li className="headerSedenavLi">Chuồng</li>
-                          <li className="headerSedenavLi">Thuốc</li>
-                          <li className="headerSedenavLi">Đồ chơi</li>
-                         
-                        </motion.ul>
-                      )}
-                    </div>
-                    <div className="mt-4">
-                      <h1
-                        onClick={() => setBrand(!brand)}
-                        className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                      >
-                        Shop by Brand
-                        <span className="text-lg">{brand ? "-" : "+"}</span>
-                      </h1>
-                      {brand && (
-                        <motion.ul
-                          initial={{ y: 15, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.4 }}
-                          className="text-sm flex flex-col gap-1"
-                        >
-                          <li className="headerSedenavLi">Thức ăn</li>
-                          <li className="headerSedenavLi">Chuồng</li>
-                          <li className="headerSedenavLi">Thuốc</li>
-                          <li className="headerSedenavLi">Đồ chơi</li>
-                        </motion.ul>
-                      )}
-                    </div>
                   </div>
                   <span
                     onClick={() => setSidenav(false)}

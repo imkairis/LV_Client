@@ -1,5 +1,5 @@
 import { ImCross } from "react-icons/im";
-import Image from "../../components/designLayouts/Image"; // Ensure Image component is correctly imported
+import Image from "../../components/designLayouts/Image";
 import { deleteItemCart, updateQuantity } from "../../services/cart.service";
 import { useDispatch } from "react-redux";
 import {
@@ -9,18 +9,31 @@ import {
 
 const ItemCard = ({ item, onCheck, checked }) => {
   const dispatch = useDispatch();
+
   const deleteItem = (productInfo) => {
-    deleteItemCart(productInfo._id)
-      .then(() => {
-        dispatch(deleteItemInCart(productInfo._id));
-      })
-      .catch((err) => console.log(err));
+    // Kiểm tra nếu sản phẩm hết hàng (ví dụ, total === 0)
+    if (productInfo.total === 0) {
+      deleteItemCart(productInfo._id)
+        .then(() => {
+          dispatch(deleteItemInCart(productInfo._id));
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const updateItem = (productInfo, quantity) => {
-    console.log(productInfo, quantity);
+    // Kiểm tra số lượng trong kho và số lượng trong giỏ
     if (quantity < 1) return;
-    if (quantity > productInfo.total) return;
+    if (quantity > productInfo.total) {
+      alert("Số lượng vượt quá số lượng trong kho!");
+      return;
+    }
+
+    // Kiểm tra nếu sản phẩm hết hàng thì xóa khỏi giỏ
+    if (productInfo.total === 0) {
+      deleteItem(productInfo);
+      return;
+    }
 
     updateQuantity(productInfo._id, quantity)
       .then(() => {
@@ -41,7 +54,6 @@ const ItemCard = ({ item, onCheck, checked }) => {
           onClick={() => deleteItem(item)}
           className="text-primeColor hover:text-red-500 duration-300 cursor-pointer"
         />
-        {/* Use Image component instead of img */}
         <Image
           className="w-32 h-32 object-cover"
           imgSrc={item.images?.[0]} // Optional default image if item.image is not provided

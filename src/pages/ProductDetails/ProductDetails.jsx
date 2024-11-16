@@ -77,12 +77,21 @@ const ProductDetails = () => {
 
             <div className="flex flex-row items-center gap-12 mt-6">
               <div className="flex flex-row items-center gap-4">
-                <button
-                  onClick={() => handleAddToCart(productInfo)}
-                  className="bg-sky-400 text-white font-semibold py-3 px-8 rounded-xl h-full transition-all duration-300 hover:bg-sky-600"
-                >
-                  Thêm vào giỏ
-                </button>
+                {productInfo.quantity > 0 ? (
+                  <button
+                    onClick={() => handleAddToCart(productInfo)}
+                    className="bg-sky-400 text-white font-semibold py-3 px-8 rounded-xl h-full transition-all duration-300 hover:bg-sky-600"
+                  >
+                    Thêm vào giỏ
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className="bg-gray-400 text-white font-semibold py-3 px-8 rounded-xl h-full cursor-not-allowed"
+                  >
+                    Hết hàng
+                  </button>
+                )}
               </div>
             </div>
           </div>
