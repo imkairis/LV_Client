@@ -11,7 +11,7 @@ const AdoptPage = () => {
   useEffect(() => {
     const getAdopts = async () => {
       try {
-        const data = await fetchAllAdopts();
+        const data = await fetchAllAdopts({ limit: 50 });
         setAdopts(data);
       } catch (err) {
         setError(err.message || "Failed to load adopts");
@@ -51,11 +51,13 @@ const AdoptPage = () => {
           <Adopt
             key={adopt._id}
             id={adopt._id}
-            image={adopt.images?.[0] || "default-image-url"} // Hiển thị ảnh đầu tiên hoặc ảnh mặc định
+            images={adopt.images || "default-image-url"} // Hiển thị ảnh đầu tiên hoặc ảnh mặc định
             age={adopt.age}
             name={adopt.name}
             description={adopt.description}
             status={adopt.status}
+            gender={adopt.gender}
+            type={adopt.type}
           />
         ))}
       </div>

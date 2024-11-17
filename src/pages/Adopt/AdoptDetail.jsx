@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { instanceAxios } from "../../constants/instanceAxios";
+import Image from "../../components/designLayouts/Image";
 
 const AdoptDetailPage = () => {
   const { id } = useParams(); // Lấy `id` từ URL
@@ -33,16 +34,19 @@ const AdoptDetailPage = () => {
     alert(`Bạn đã gửi yêu cầu nhận nuôi cho ${adoptItem.name}`);
     // Thêm logic xử lý gửi yêu cầu nhận nuôi (ví dụ gọi API POST).
   };
+  console.log(adoptItem.images?.[0]);
 
   return (
     <div className="md:grid justify-between md:grid-cols-3 gap-8 mt-5">
       {/* Hình ảnh thú cưng */}
       <div className="col-span-1">
         <div className="p-4 bg-white shadow-lg rounded-lg w-full border-gray-300 md:h-full">
-          <img
-            src={adoptItem.images?.[0]} // Lấy ảnh đầu tiên
+          <Image
+            imgSrc={adoptItem.images?.[0]}
+            isServer={true}
+            // Lấy ảnh đầu tiên
             alt={adoptItem.name}
-            className="w-full h-64 object-cover rounded-lg"
+            className="w-full md:h-full h-64 object-cover rounded-lg"
           />
         </div>
       </div>
@@ -51,6 +55,9 @@ const AdoptDetailPage = () => {
       <div className="bg-white shadow-lg rounded-lg p-6 border-gray-300 col-span-2">
         <span className="text-green-500 font-semibold mt-4">
           {adoptItem.type} {/* Thể loại */}
+        </span>
+        <span className="text-green-500 font-semibold mt-4">
+          {adoptItem.gender}
         </span>
         <h1 className="text-3xl font-bold leading-relaxed mt-4">
           {adoptItem.name}

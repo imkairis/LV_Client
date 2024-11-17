@@ -1,9 +1,13 @@
 import { instanceAxios } from "../constants/instanceAxios";
 
 
-export const fetchAllAdopts = async () => {
+export const fetchAllAdopts = async (params = {}) => {
   try {
-    const response = await instanceAxios.get("/donations");
+    const query = new URLSearchParams(params);
+    const url =
+        query.size !== 0 ? `/donations?${query.toString()}` : "/donations";
+
+    const response = await  instanceAxios.get(url);
     return response.data.data; // Giả sử dữ liệu nằm trong `data.data`
     console.log(data)
   } catch (error) {
@@ -22,6 +26,7 @@ export const createObjectDonation = ({
   currentIssue,
   status,
   address,
+  gender,
   phone,
   images = [],
   description = "",
@@ -49,6 +54,7 @@ export const createObjectDonation = ({
   formdata.append("status", status);
   formdata.append("address", address);
   formdata.append("phone", phone);
+  formdata.append("gender", gender)
   if (images.length > 0) {
     Array.from(images).forEach((img, index) => {
       formdata.append("images", img);

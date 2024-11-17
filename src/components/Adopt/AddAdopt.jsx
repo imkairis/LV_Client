@@ -14,12 +14,30 @@ const AddPetForm = () => {
     phone: "",
     type: "",
     description: "",
+    gender: "",
     images: [],
   });
   const [image, setImage] = useState([]);
 
-  const statusOptions = ["Available", "Adopted", "Pending"];
-  const typeOptions = ["Dog", "Cat"]; // Thay thế bằng danh sách từ API nếu cần
+  const statusOptions = [
+    "Đang chờ xét duyệt",
+    "Chưa có người nhận nuôi",
+    "Đã có người nhận nuôi",
+  ];
+  const genderOptions = ["Đực", "Cái"];
+  const typeOptions = [
+    "Chó cỏ",
+    "Poodle",
+    "Chihuahua",
+    "Corgi",
+    "Golden ",
+    "Pug",
+    "Mèo mướp",
+    "Mèo Anh lông ngắn",
+    "Mèo Ba Tư",
+    "Mèo tam thể",
+    "Mèo Ai Cập",
+  ]; // Thay thế bằng danh sách từ API nếu cần
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,6 +113,25 @@ const AddPetForm = () => {
             {typeOptions.map((type, index) => (
               <option key={index} value={type}>
                 {type}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Giới tính
+          </label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          >
+            <option value="">Chọn giới tính</option>
+            {genderOptions.map((gender, index) => (
+              <option key={index} value={gender}>
+                {gender}
               </option>
             ))}
           </select>
