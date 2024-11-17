@@ -57,7 +57,7 @@ const router = createBrowserRouter(
         <Route path="/info" element={<Info />}></Route>
         <Route path="/account-orders" element={<AccountOrder />} />
         {/* Định tuyến đến chi tiết đơn hàng với orderId */}
-        <Route path="/order-detail/:orderId" element={<OrderDetailClient />} />
+        <Route path="/order-detail/:id" element={<OrderDetailClient />} />
         {/* ==================== Header Navlink End here ===================== */}
         <Route path="/offer" element={<Offer />}></Route>
         <Route path="/product/:_id" element={<ProductDetails />}></Route>
