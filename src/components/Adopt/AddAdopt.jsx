@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { createDonation } from "../../services/donation.service";
 import { useSelector } from "react-redux";
+import { createDonation } from "../../services/donation.service";
 
 const AddPetForm = () => {
   const userInfo = useSelector((state) => state.orebiReducer.userInfo);
@@ -12,9 +11,15 @@ const AddPetForm = () => {
     currentIssue: "",
     status: "",
     address: "",
+    phone: "",
+    type: "",
+    description: "",
+    images: [],
   });
+  const [image, setImage] = useState([]);
 
   const statusOptions = ["Available", "Adopted", "Pending"];
+  const typeOptions = ["Dog", "Cat"]; // Thay thế bằng danh sách từ API nếu cần
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,21 +29,19 @@ const AddPetForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
+  const handleImageUpload = (e) => {
+    setImage(e.target.files);
+  };
 
+  const handleSubmit = async () => {
     try {
-      // const response = await axios.post("API_ENDPOINT_HERE", formData);
-
       createDonation({
         user: userInfo._id,
         ...formData,
+        images: image,
       }).then((data) => {
-        console.log(data);
+        console.log("Thú cưng đã được thêm:", data);
       });
-
-      // console.log("Thú cưng đã được thêm:", formData);
-      // Thực hiện các hành động khác sau khi thành công
     } catch (error) {
       console.error("Có lỗi xảy ra khi thêm thú cưng:", error);
     }
@@ -74,6 +77,27 @@ const AddPetForm = () => {
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
+        </div>
+
+        {/* Loại */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Loại
+          </label>
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          >
+            <option value="">Chọn loại</option>
+            {typeOptions.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Tiền sử bệnh */}
@@ -140,13 +164,54 @@ const AddPetForm = () => {
           />
         </div>
 
+        {/* Số điện thoại */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Số điện thoại
+          </label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        {/* Mô tả */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Mô tả
+          </label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          ></textarea>
+        </div>
+
+        {/* Hình ảnh */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Hình ảnh
+          </label>
+          <input
+            type="file"
+            multiple
+            onChange={handleImageUpload}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
         {/* Nút gửi */}
-        <div
+        <button
           onClick={handleSubmit}
           className="w-full px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Thêm thú cưng
-        </div>
+        </button>
       </div>
     </div>
   );
