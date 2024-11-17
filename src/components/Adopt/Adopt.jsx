@@ -5,11 +5,10 @@ export const Adopt = ({ id, images, age, name, description, status }) => {
   return (
     <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
       <div>
-        {/* Sử dụng Image component */}
         <Image
           className="w-full h-56 object-cover"
-          imgSrc={images?.[0]} // Lấy ảnh đầu tiên từ danh sách
-          isServer={true} // Ảnh được tải từ server
+          imgSrc={images?.[0]}
+          isServer={true}
         />
       </div>
       <div className="bg-white p-4 sm:p-6">

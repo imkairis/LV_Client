@@ -56,7 +56,7 @@ function Type({}) {
               Đa dạng các loại thức ăn cho chó mèo đến từ nhiều thương hiệu khác
               nhau
             </p>
-            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
+            <span className="block w-full rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105">
               Mua Ngay Thức Ăn
             </span>
           </div>
@@ -70,7 +70,7 @@ function Type({}) {
           onMouseLeave={() => handleMouseLeave("type2")}
         >
           <img
-            src={hovered.type2 ? img4 : img3} // Thay đổi ảnh riêng cho Type 2
+            src={hovered.type2 ? img3 : img4} // Thay đổi ảnh riêng cho Type 2
             alt=""
             className="h-80 w-full rounded-tr-3xl object-cover transition-all duration-300 ease-in-out"
           />
@@ -81,7 +81,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Các loại chuồng đa dạng kích cỡ, loại, vật liêu cho chó mèo
             </p>
-            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-4000">
+            <span className="block w-full rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105">
               Mua Ngay Chuồng
             </span>
           </div>
@@ -106,7 +106,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Các loại đồ chơi khác nhau cho chó mèo của bạn
             </p>
-            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
+            <span className="block w-full rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105">
               Mua Ngay Đồ Chơi
             </span>
           </div>
@@ -120,7 +120,7 @@ function Type({}) {
           onMouseLeave={() => handleMouseLeave("type4")}
         >
           <img
-            src={hovered.type4 ? img8 : img7} // Thay đổi ảnh riêng cho Type 4
+            src={hovered.type4 ? img7 : img8} // Thay đổi ảnh riêng cho Type 4
             alt=""
             className="h-80 w-full rounded-tr-3xl object-cover transition-all duration-300 ease-in-out"
           />
@@ -129,7 +129,7 @@ function Type({}) {
             <p className="mt-2 text-pretty text-gray-700">
               Thuốc sử dụng riêng cho chó mèo với tình trạng gặp phải khác nhau
             </p>
-            <span className="mt-4 block rounded-md border  border-sky-400 bg-sky-400 px-5 py-3 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-sky-400">
+            <span className="block w-full rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105">
               Mua Ngay Thuốc
             </span>
           </div>

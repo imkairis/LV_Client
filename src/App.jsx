@@ -28,6 +28,8 @@ import Adopt from "./pages/Adopt/AdoptPage";
 import AdoptDetail from "./pages/Adopt/AdoptDetail";
 import AddPetForm from "./components/Adopt/AddAdopt";
 import Footer from "./components/home/Footer/Footer";
+import AccountOrder from "./pages/Info/AccountOrder";
+import OrderDetailClient from "./pages/Order/Order";
 const Layout = () => {
   return (
     <div>
@@ -53,6 +55,9 @@ const router = createBrowserRouter(
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/journal" element={<Journal />}></Route>
         <Route path="/info" element={<Info />}></Route>
+        <Route path="/account-orders" element={<AccountOrder />} />
+        {/* Định tuyến đến chi tiết đơn hàng với orderId */}
+        <Route path="/order-detail/:orderId" element={<OrderDetailClient />} />
         {/* ==================== Header Navlink End here ===================== */}
         <Route path="/offer" element={<Offer />}></Route>
         <Route path="/product/:_id" element={<ProductDetails />}></Route>
