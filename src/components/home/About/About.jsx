@@ -23,7 +23,7 @@ export default function AboutSection() {
           <div className="mt-4 md:mt-8">
             <a
               href="/about"
-              className="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
+              className="block w-100 rounded bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105"
             >
               Tìm hiểu về chúng tôi
             </a>

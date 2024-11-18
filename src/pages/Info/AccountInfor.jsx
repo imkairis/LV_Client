@@ -1,18 +1,18 @@
-import { Field, Form, Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { initUser } from '../../redux/orebiSlice';
+import { Field, Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { initUser } from "../../redux/orebiSlice";
 
 function AccountInfor() {
   const { userInfo } = useSelector((state) => state.orebiReducer);
-  
+
   // If userInfo is not ready, provide default empty values to prevent errors
   const initialValues = {
-    username: userInfo?.username || '',
-    fullname: userInfo?.fullname || '',
-    email: userInfo?.email || '',
-    phoneNumber: userInfo?.phone || '',
-    dateOfBirth: userInfo?.date ? new Date(userInfo.date).toISOString().slice(0, 10) : '',
-    address: userInfo?.address?.[0] || '', // Get the first address from the array or provide an empty string
+    username: userInfo?.username || "",
+    fullname: userInfo?.fullname || "",
+    email: userInfo?.email || "",
+    dateOfBirth: userInfo?.date
+      ? new Date(userInfo.date).toISOString().slice(0, 10)
+      : "",
   };
 
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function AccountInfor() {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(values), // Send form data in the request body
     })
@@ -54,7 +54,10 @@ function AccountInfor() {
         >
           <Form>
             <div className="mb-6">
-              <label htmlFor="username" className="block text-sm font-semibold mb-2">
+              <label
+                htmlFor="username"
+                className="block text-sm font-semibold mb-2"
+              >
                 Username:
               </label>
               <Field
@@ -64,9 +67,12 @@ function AccountInfor() {
                 className="w-full p-3 border border-gray-300 rounded-md text-base"
               />
             </div>
-            
+
             <div className="mb-6">
-              <label htmlFor="fullname" className="block text-sm font-semibold mb-2">
+              <label
+                htmlFor="fullname"
+                className="block text-sm font-semibold mb-2"
+              >
                 Fullname:
               </label>
               <Field
@@ -78,7 +84,10 @@ function AccountInfor() {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-semibold mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold mb-2"
+              >
                 Email:
               </label>
               <Field
@@ -90,37 +99,16 @@ function AccountInfor() {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="phoneNumber" className="block text-sm font-semibold mb-2">
-                Phone Number:
-              </label>
-              <Field
-                type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                className="w-full p-3 border border-gray-300 rounded-md text-base"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="dateOfBirth" className="block text-sm font-semibold mb-2">
+              <label
+                htmlFor="dateOfBirth"
+                className="block text-sm font-semibold mb-2"
+              >
                 Date of Birth:
               </label>
               <Field
                 type="date"
                 id="dateOfBirth"
                 name="dateOfBirth"
-                className="w-full p-3 border border-gray-300 rounded-md text-base"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="address" className="block text-sm font-semibold mb-2">
-                Address:
-              </label>
-              <Field
-                type="text"
-                id="address"
-                name="address"
                 className="w-full p-3 border border-gray-300 rounded-md text-base"
               />
             </div>

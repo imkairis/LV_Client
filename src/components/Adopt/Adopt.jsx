@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Image from "../../components/designLayouts/Image";
-
+import imgadopt from "../../assets/images/Adopt/adoptbaneer.png";
 export const Adopt = ({ id, images, age, name, status, type, gender }) => {
   // Xác định màu nền dựa trên status
   const statusBgColor =
@@ -30,9 +30,9 @@ export const Adopt = ({ id, images, age, name, status, type, gender }) => {
       {/* Content */}
       <div className="p-4 text-center">
         <strong className="text-xl font-medium text-gray-900"> {name} </strong>
-        <p className="block text-xs text-gray-500 mt-1">Loài: {type}</p>
-        <p className="block text-xs text-gray-500">Giới tính: {gender}</p>
-        <p className="block text-xs text-gray-500">Tuổi: {age}</p>
+        <p className="block text-sm text-gray-500 mt-1">Loài: {type}</p>
+        <p className="block text-sm text-gray-500">Giới tính: {gender}</p>
+        <p className="block text-sm text-gray-500">Tuổi: {age}</p>
 
         {/* Link to details */}
         <Link

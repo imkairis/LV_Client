@@ -103,45 +103,56 @@ const ProductDetails = () => {
               Thông tin sản phẩm
             </h1>
 
-            {/* Mô tả sản phẩm (luôn hiển thị) */}
-            <p className="font-medium text-lg" mt-4>
-              <strong>Mô tả sản phẩm:</strong> {productInfo.description}
-            </p>
+            <div className="flow-root">
+              <dl className="-my-3 divide-y divide-gray-100 text-sm">
+                {/* Mô tả sản phẩm */}
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">Mô tả sản phẩm:</dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {productInfo.description}
+                  </dd>
+                </div>
 
-            {/* Hướng dẫn sử dụng (luôn hiển thị) */}
-            <p className="font-medium text-lg mt-4">
-              <strong>Hướng dẫn sử dụng:</strong>{" "}
-              {productInfo.userManual || "Không có hướng dẫn sử dụng"}
-            </p>
+                {/* Hướng dẫn sử dụng */}
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">
+                    Hướng dẫn sử dụng:
+                  </dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {productInfo.userManual || "Không có hướng dẫn sử dụng"}
+                  </dd>
+                </div>
 
-            {/* Các thông tin khác sẽ bị thu gọn */}
-            {!isCollapsed && (
-              <>
-                <p className="font-medium text-lg mt-4">
-                  <strong>Khối lượng:</strong> {productInfo.weight} kg
-                </p>
+                {/* Các thông tin khác */}
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">Khối lượng:</dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {productInfo.weight} kg
+                  </dd>
+                </div>
 
-                <p className="font-medium text-lg mt-4">
-                  <strong>Thành phần:</strong> {productInfo.element}
-                </p>
-                <p className="font-medium text-lg mt-4">
-                  <strong>Ngày sản xuất:</strong>{" "}
-                  {formatDate(productInfo.dateOfManufacture)}
-                </p>
-                <p className="font-medium text-lg mt-4">
-                  <strong>Hạn sử dụng:</strong>{" "}
-                  {formatDate(productInfo.expirationDate)}
-                </p>
-              </>
-            )}
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">Thành phần:</dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {productInfo.element}
+                  </dd>
+                </div>
 
-            {/* Nút thu gọn/mở rộng */}
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="bg-sky-400 text-white font-semibold py-2 px-6 rounded-lg mt-4 mx-auto block transition-all duration-300 hover:bg-sky-600"
-            >
-              {isCollapsed ? "Xem thêm" : "Thu gọn"}
-            </button>
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">Ngày sản xuất:</dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {formatDate(productInfo.dateOfManufacture)}
+                  </dd>
+                </div>
+
+                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                  <dt className="font-medium text-gray-900">Hạn sử dụng:</dt>
+                  <dd className="text-gray-700 sm:col-span-2">
+                    {formatDate(productInfo.expirationDate)}
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
         {/* Hình ảnh bổ sung */}

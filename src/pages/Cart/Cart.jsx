@@ -23,20 +23,21 @@ const Cart = () => {
 
   useEffect(() => {
     setProdBuy((prev) => {
-      return prev.map((item) => {
-        console.log("products ", products);
+      return prev.filter((item) => {
         const index = products.findIndex((product) => product._id === item._id);
-        console.log("index ", index);
         if (index !== -1) {
-          return {
+          const updatedItem = {
             ...item,
             quantity: products[index].quantity,
           };
+          // Nếu số lượng là 0, tự động xóa khỏi giỏ hàng
+          if (updatedItem.quantity === 0) {
+            deleteItem(updatedItem); // Xóa sản phẩm nếu hết hàng
+            return false; // Loại bỏ sản phẩm khỏi giỏ hàng
+          }
+          return true;
         }
-        return {
-          ...item,
-          quantity: item.quantity,
-        };
+        return true;
       });
     });
   }, [products]);
