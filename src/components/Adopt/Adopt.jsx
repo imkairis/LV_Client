@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Image from "../../components/designLayouts/Image";
-import imgadopt from "../../assets/images/Adopt/adoptbaneer.png";
 export const Adopt = ({ id, images, age, name, status, type, gender }) => {
   // Xác định màu nền dựa trên status
   const statusBgColor =
