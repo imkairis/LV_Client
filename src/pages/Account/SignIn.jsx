@@ -53,8 +53,8 @@ const SignIn = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (!username) setErrEmail("Enter your username");
-    if (!password) setErrPassword("Create a password");
+    if (!username) setErrEmail("Nhập vào tên tài khoản");
+    if (!password) setErrPassword("Tạo mật khẩu");
 
     if (username && password) {
       handleLogin();
@@ -95,16 +95,18 @@ const SignIn = () => {
             <p className="text-green-500 font-medium mb-4">{successMsg}</p>
             <Link to="/signup">
               <button className="w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-semibold tracking-wide hover:bg-black hover:text-white duration-300">
-                Sign Up
+                Đăng nhập
               </button>
             </Link>
           </div>
         ) : (
           <form className="flex flex-col">
-            <h1 className="text-3xl font-semibold text-center mb-6">Sign in</h1>
+            <h1 className="text-3xl font-semibold text-center mb-6">
+              Đăng nhập
+            </h1>
             <div className="flex flex-col gap-3 mb-4">
               <label className="text-base font-semibold text-gray-600">
-                Username
+                Tên tài khoản
               </label>
               <input
                 onChange={handleUsername}
@@ -117,7 +119,7 @@ const SignIn = () => {
             </div>
             <div className="flex flex-col gap-3 mb-4">
               <label className="text-base font-semibold text-gray-600">
-                Password
+                Mật khẩu
               </label>
               <input
                 onChange={handlePassword}
@@ -134,12 +136,12 @@ const SignIn = () => {
               onClick={handleSignUp}
               className="w-full py-2 bg-primeColor text-gray-200 rounded-md text-base font-medium hover:bg-black hover:text-white duration-300"
             >
-              Sign In
+              Đăng nhập
             </button>
             <p className="text-center mt-4">
-              Don't have an account?{" "}
+              Bạn chưa có tài khoản?{" "}
               <Link to="/signup" className="text-blue-600 hover:underline">
-                Sign up
+                Đăng ký
               </Link>
             </p>
           </form>

@@ -119,7 +119,7 @@ const SignUp = () => {
             </h1>
             <div className="flex flex-col gap-3 overflow-y-auto scrollbar-hide">
               <div className="flex flex-col">
-                <label className="text-gray-600 font-medium">Full Name</label>
+                <label className="text-gray-600 font-medium">Họ và tên</label>
                 <input
                   onChange={handleFullName}
                   value={fullName}
@@ -143,7 +143,7 @@ const SignUp = () => {
                 {errEmail && <p className="text-red-500 text-sm">{errEmail}</p>}
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-600 font-medium">Birthday</label>
+                <label className="text-gray-600 font-medium">Ngày sinh</label>
                 <input
                   onChange={handleBirthday}
                   value={birthday}
@@ -155,7 +155,9 @@ const SignUp = () => {
                 )}
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-600 font-medium">Username</label>
+                <label className="text-gray-600 font-medium">
+                  Tên tài khoản
+                </label>
                 <input
                   onChange={handleUserName}
                   value={userName}
@@ -168,7 +170,7 @@ const SignUp = () => {
                 )}
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-600 font-medium">Password</label>
+                <label className="text-gray-600 font-medium">Mật khẩu</label>
                 <input
                   onChange={handlePassword}
                   value={password}
