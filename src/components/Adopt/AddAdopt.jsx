@@ -68,7 +68,7 @@ const AddPetForm = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mb-4">Add Adoptable Pet</h2>
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Tên */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Tên</label>
@@ -117,6 +117,8 @@ const AddPetForm = () => {
             ))}
           </select>
         </div>
+
+        {/* Giới tính */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Giới tính
@@ -138,7 +140,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Tiền sử bệnh */}
-        <div className="mb-4">
+        <div className="sm:col-span-2 mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Tiền sử vấn đề
           </label>
@@ -152,7 +154,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Vấn đề hiện tại */}
-        <div className="mb-4">
+        <div className="sm:col-span-2 mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Vấn đề hiện tại
           </label>
@@ -166,7 +168,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Trạng thái */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Trạng thái
           </label>
@@ -184,7 +186,7 @@ const AddPetForm = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         {/* Địa chỉ */}
         <div className="mb-4">
@@ -217,7 +219,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Mô tả */}
-        <div className="mb-4">
+        <div className="sm:col-span-2 mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Mô tả
           </label>
@@ -230,7 +232,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Hình ảnh */}
-        <div className="mb-4">
+        <div className="sm:col-span-2 mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Hình ảnh
           </label>
@@ -241,15 +243,15 @@ const AddPetForm = () => {
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
-
-        {/* Nút gửi */}
-        <button
-          onClick={handleSubmit}
-          className="w-full px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Thêm thú cưng
-        </button>
       </div>
+
+      {/* Nút gửi */}
+      <button
+        onClick={handleSubmit}
+        className="w-full px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Thêm thú cưng
+      </button>
     </div>
   );
 };
