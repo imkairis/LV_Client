@@ -6,6 +6,7 @@ const statusOptions = [
   "Đang chờ xét duyệt",
   "Chưa có người nhận nuôi",
   "Đã có người nhận nuôi",
+  "Từ chối",
 ];
 const genderOptions = ["Đực", "Cái"];
 const typeOptions = [
@@ -29,7 +30,7 @@ const AddPetForm = () => {
     age: "",
     historyOfIssue: "",
     currentIssue: "",
-    status: "",
+    status: "Đang chờ xét duyệt", // Giá trị mặc định
     address: "",
     phone: "",
     type: "",
@@ -37,6 +38,7 @@ const AddPetForm = () => {
     gender: "",
     images: [],
   });
+
   const [image, setImage] = useState([]);
 
   const handleChange = (e) => {
@@ -166,7 +168,7 @@ const AddPetForm = () => {
         </div>
 
         {/* Trạng thái */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Trạng thái
           </label>
@@ -184,7 +186,7 @@ const AddPetForm = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         {/* Địa chỉ */}
         <div className="mb-4">

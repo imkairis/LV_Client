@@ -125,7 +125,7 @@ const HeaderBottom = () => {
             className="flex h-14 cursor-pointer items-center gap-2 text-primeColor"
           >
             <HiOutlineMenuAlt4 className="w-5 h-5" />
-            <p className="text-[14px] font-normal">Shop by Category</p>
+            <p className="text-[14px] font-normal">Loại sản phẩm</p>
 
             {show && (
               <motion.ul
@@ -193,14 +193,14 @@ const HeaderBottom = () => {
                   >
                     <Link to="/info">
                       <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                        Infomation
+                        Thông tin
                       </li>
                     </Link>
                     <li
                       onClick={handleLogout}
                       className="text-gray-400 px-4 py-1  border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer"
                     >
-                      Logout
+                      Đăng xuất
                     </li>
                   </motion.ul>
                 )}

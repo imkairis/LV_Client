@@ -1,111 +1,38 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { initCart, resetCart } from "../../redux/orebiSlice";
+import { resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
-import { clearCart } from "../../services/cart.service";
-import toast from "react-hot-toast";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.orebiReducer);
-  const [prodBuy, setProdBuy] = useState([]);
-  const [shippingCharge] = useState(30000);
-  const nav = useNavigate();
-
-  // Tính lại giá tổng khi prodBuy thay đổi
-  const totalAmt = useMemo(() => {
-    return prodBuy.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  }, [prodBuy]);
-
+  const products = useSelector((state) => state.orebiReducer.products);
+  const [totalAmt, setTotalAmt] = useState("");
+  const [shippingCharge, setShippingCharge] = useState("");
   useEffect(() => {
-    setProdBuy((prev) => {
-      return prev.filter((item) => {
-        const index = products.findIndex((product) => product._id === item._id);
-        if (index !== -1) {
-          const updatedItem = {
-            ...item,
-            quantity: products[index].quantity,
-          };
-          // Nếu số lượng là 0, tự động xóa khỏi giỏ hàng
-          if (updatedItem.quantity === 0) {
-            deleteItem(updatedItem); // Xóa sản phẩm nếu hết hàng
-            return false; // Loại bỏ sản phẩm khỏi giỏ hàng
-          }
-          return true;
-        }
-        return true;
-      });
+    let price = 0;
+    products.map((item) => {
+      price += item.price * item.quantity;
+      return price;
     });
+    setTotalAmt(price);
   }, [products]);
-
   useEffect(() => {
-    const fetchCartItem = () => {
-      fetch(`${import.meta.env.VITE_HOST}/carts`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const items = data.data.items.map((item) => {
-            return {
-              ...item.product,
-              quantity: item.quantity,
-              total: item.product.quantity, // total product in stock
-            };
-          });
-          dispatch(initCart(items));
-          setProdBuy(items);
-        })
-        .catch((err) => console.log(err));
-    };
-    fetchCartItem();
-  }, [dispatch]);
-
-  const handleCheckProduct = (e) => {
-    const selectedProduct = products.find(
-      (item) => item._id === e.target.value
-    );
-
-    if (e.target.checked) {
-      // Thêm sản phẩm vào danh sách đã chọn và cập nhật tổng
-      setProdBuy((prevProdBuy) => [...prevProdBuy, selectedProduct]);
-    } else {
-      // Xóa sản phẩm khỏi danh sách đã chọn và cập nhật tổng
-      setProdBuy((prevProdBuy) =>
-        prevProdBuy.filter((item) => item._id !== e.target.value)
-      );
+    if (totalAmt <= 200) {
+      setShippingCharge(30);
+    } else if (totalAmt <= 400) {
+      setShippingCharge(25);
+    } else if (totalAmt > 401) {
+      setShippingCharge(20);
     }
-  };
-  const handleResetCart = () => {
-    clearCart()
-      .then(() => {
-        dispatch(resetCart()); // Làm trống giỏ hàng trong Redux store
-        setProdBuy([]); // Reset lại các sản phẩm đã chọn
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleNavigateCheckout = () => {
-    if (prodBuy.length === 0) {
-      toast.error("Vui lòng chọn sản phẩm muốn mua!");
-      return;
-    }
-    nav("/checkout", {
-      state: {
-        items: prodBuy,
-      },
-    });
-  };
-
+  }, [totalAmt]);
   return (
     <div className="max-w-container mx-auto px-4">
       <Breadcrumbs title="Cart" />
-      {products?.length > 0 ? (
+      {products.length > 0 ? (
         <div className="pb-20">
           <div className="w-full h-20 bg-[#F5F7F7] text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
             <h2 className="col-span-2">Product</h2>
@@ -114,39 +41,33 @@ const Cart = () => {
             <h2>Sub Total</h2>
           </div>
           <div className="mt-5">
-            <AnimatePresence>
-              {products.map((item) => (
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ x: 20, opacity: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 900,
-                    damping: 40,
-                    duration: 0.4,
-                  }}
-                  key={item?._id}
-                >
-                  <ItemCard
-                    item={item}
-                    checked={
-                      item._id === prodBuy.find((p) => p._id === item._id)?._id
-                    }
-                    onCheck={handleCheckProduct}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            {products.map((item) => (
+              <div key={item._id}>
+                <ItemCard item={item} />
+              </div>
+            ))}
           </div>
 
-          <motion.button
-            onClick={handleResetCart}
+          <button
+            onClick={() => dispatch(resetCart())}
             className="py-2 px-10 bg-red-500 text-white font-semibold uppercase mb-4 hover:bg-red-700 duration-300"
           >
             Reset cart
-          </motion.button>
+          </button>
 
+          <div className="flex flex-col mdl:flex-row justify-between border py-4 px-4 items-center gap-2 mdl:gap-0">
+            <div className="flex items-center gap-4">
+              <input
+                className="w-44 mdl:w-52 h-8 px-4 border text-primeColor text-sm outline-none border-gray-400"
+                type="text"
+                placeholder="Coupon Number"
+              />
+              <p className="text-sm mdl:text-base font-semibold">
+                Apply Coupon
+              </p>
+            </div>
+            <p className="text-lg font-semibold">Update Cart</p>
+          </div>
           <div className="max-w-7xl gap-4 flex justify-end mt-4">
             <div className="w-96 flex flex-col gap-4">
               <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
@@ -154,29 +75,28 @@ const Cart = () => {
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                   Subtotal
                   <span className="font-semibold tracking-wide font-titleFont">
-                    {totalAmt.toLocaleString("vi-VN")} VND
+                    ${totalAmt}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                   Shipping Charge
                   <span className="font-semibold tracking-wide font-titleFont">
-                    {shippingCharge.toLocaleString("vi-VN")} VND
+                    ${shippingCharge}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Total
                   <span className="font-bold tracking-wide text-lg font-titleFont">
-                    {(totalAmt + shippingCharge).toLocaleString("vi-VN")} VND
+                    ${totalAmt + shippingCharge}
                   </span>
                 </p>
               </div>
               <div className="flex justify-end">
-                <button
-                  className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300"
-                  onClick={handleNavigateCheckout}
-                >
-                  Proceed to Checkout
-                </button>
+                <Link to="/paymentgateway">
+                  <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+                    Proceed to Checkout
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

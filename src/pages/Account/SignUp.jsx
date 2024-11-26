@@ -182,22 +182,12 @@ const SignUp = () => {
                   <p className="text-red-500 text-sm">{errPassword}</p>
                 )}
               </div>
-              <div className="flex items-center gap-2">
-                <input
-                  onChange={(e) => setChecked(e.target.checked)}
-                  className="w-4 h-4"
-                  type="checkbox"
-                />
-                <p className="text-gray-600 text-sm">
-                  Đăng ký tài khoản đồng nghĩa bạn sẽ chấp nhận các chính sách
-                  của chúng tôi
-                </p>
-              </div>
+
               <button
                 onClick={handleSignUp}
                 className="w-full h-10 bg-primeColor rounded-md text-white font-semibold hover:bg-black duration-300 mt-4"
               >
-                Sign Up
+                Đăng ký
               </button>
             </div>
           </form>

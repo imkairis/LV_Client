@@ -58,7 +58,7 @@ function AccountInfor() {
                 htmlFor="username"
                 className="block text-sm font-semibold mb-2"
               >
-                Username:
+                Tên tài khoản:
               </label>
               <Field
                 type="text"
@@ -73,7 +73,7 @@ function AccountInfor() {
                 htmlFor="fullname"
                 className="block text-sm font-semibold mb-2"
               >
-                Fullname:
+                Họ và tên:
               </label>
               <Field
                 type="text"
@@ -88,7 +88,7 @@ function AccountInfor() {
                 htmlFor="email"
                 className="block text-sm font-semibold mb-2"
               >
-                Email:
+                Gmail:
               </label>
               <Field
                 type="email"
@@ -103,7 +103,7 @@ function AccountInfor() {
                 htmlFor="dateOfBirth"
                 className="block text-sm font-semibold mb-2"
               >
-                Date of Birth:
+                Ngày sinh:
               </label>
               <Field
                 type="date"

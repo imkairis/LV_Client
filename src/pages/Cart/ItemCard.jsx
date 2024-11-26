@@ -12,13 +12,12 @@ const ItemCard = ({ item, onCheck, checked }) => {
 
   const deleteItem = (productInfo) => {
     // Kiểm tra nếu sản phẩm hết hàng (ví dụ, total === 0)
-    if (productInfo.total === 0) {
-      deleteItemCart(productInfo._id)
-        .then(() => {
-          dispatch(deleteItemInCart(productInfo._id));
-        })
-        .catch((err) => console.log(err));
-    }
+
+    deleteItemCart(productInfo._id)
+      .then(() => {
+        dispatch(deleteItemInCart(productInfo._id));
+      })
+      .catch((err) => console.log(err));
   };
 
   const updateItem = (productInfo, quantity) => {
@@ -30,10 +29,6 @@ const ItemCard = ({ item, onCheck, checked }) => {
     }
 
     // Kiểm tra nếu sản phẩm hết hàng thì xóa khỏi giỏ
-    if (productInfo.total === 0) {
-      deleteItem(productInfo);
-      return;
-    }
 
     updateQuantity(productInfo._id, quantity)
       .then(() => {
