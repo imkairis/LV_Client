@@ -37,6 +37,9 @@ export const orebiSlice = createSlice({
             const item = state.products.find(
                 item => item._id === action.payload._id
             );
+            if (item.quantity === 0) {
+               return;
+            }
             if (item.quantity === 1) {
                 item.quantity = 1;
             } else {
