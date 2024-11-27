@@ -86,7 +86,7 @@ function Comments({ donationId }) {
         <div className="w-full flex justify-end px-3 my-3">
           <button
             type="submit"
-            className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500 text-lg"
+            className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500 "
           >
             Gửi bình luận
           </button>

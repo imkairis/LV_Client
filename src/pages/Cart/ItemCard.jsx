@@ -1,5 +1,5 @@
 import { ImCross } from "react-icons/im";
-import Image from "../../components/designLayouts/Image";
+import Image from "../../components/designLayouts/Image"; // Ensure Image component is correctly imported
 import { deleteItemCart, updateQuantity } from "../../services/cart.service";
 import { useDispatch } from "react-redux";
 import {
@@ -7,12 +7,9 @@ import {
   deleteItem as deleteItemInCart,
 } from "../../redux/orebiSlice";
 
-const ItemCard = ({ item, onCheck, checked }) => {
+const ItemCard = ({ item, onCheck }) => {
   const dispatch = useDispatch();
-
   const deleteItem = (productInfo) => {
-    // Kiểm tra nếu sản phẩm hết hàng (ví dụ, total === 0)
-
     deleteItemCart(productInfo._id)
       .then(() => {
         dispatch(deleteItemInCart(productInfo._id));
@@ -21,15 +18,6 @@ const ItemCard = ({ item, onCheck, checked }) => {
   };
 
   const updateItem = (productInfo, quantity) => {
-    // Kiểm tra số lượng trong kho và số lượng trong giỏ
-    if (quantity < 1) return;
-    if (quantity > productInfo.total) {
-      alert("Số lượng vượt quá số lượng trong kho!");
-      return;
-    }
-
-    // Kiểm tra nếu sản phẩm hết hàng thì xóa khỏi giỏ
-
     updateQuantity(productInfo._id, quantity)
       .then(() => {
         dispatch(
@@ -49,6 +37,7 @@ const ItemCard = ({ item, onCheck, checked }) => {
           onClick={() => deleteItem(item)}
           className="text-primeColor hover:text-red-500 duration-300 cursor-pointer"
         />
+        {/* Use Image component instead of img */}
         <Image
           className="w-32 h-32 object-cover"
           imgSrc={item.images?.[0]} // Optional default image if item.image is not provided
@@ -86,7 +75,6 @@ const ItemCard = ({ item, onCheck, checked }) => {
             name="buy"
             value={item._id}
             onChange={onCheck}
-            checked={checked}
           />
         </div>
       </div>

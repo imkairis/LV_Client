@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AccountInfor from "./AccountInfor";
 import AccountChangePassword from "./AccountChangePassword";
 import AccountOrder from "./AccountOrder";
-
+import AccountAdopt from "./AccountAdopt";
 function AccountPage() {
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (index) => {
@@ -48,9 +48,16 @@ function AccountPage() {
                 >
                   <a href="#">ĐƠN HÀNG</a>
                 </li>
-                <button className="w-full bg-black text-white py-3 rounded-md hover:opacity-70">
-                  ĐĂNG XUẤT
-                </button>
+                <li
+                  className={`${
+                    activeTab === 4
+                      ? "text-indigo-600 font-bold border-b-2 border-indigo-600"
+                      : ""
+                  }`}
+                  onClick={() => handleTabClick(4)}
+                >
+                  <a href="#">NHẬN NUÔI</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -60,6 +67,7 @@ function AccountPage() {
               {activeTab === 1 && <AccountInfor />}
               {activeTab === 2 && <AccountChangePassword />}
               {activeTab === 3 && <AccountOrder />}
+              {activeTab === 4 && <AccountAdopt />}
             </div>
           </div>
         </div>

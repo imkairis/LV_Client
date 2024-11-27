@@ -123,9 +123,7 @@ const Banner = () => {
             <Image imgSrc={bannerImgTwo} />
           </div>
         </div>
-        <div
-          onClick={() => handleClick("shop?targets=6723b9c2a8cc66e7c07a8371")}
-        >
+        <div onClick={() => handleClick("adopt")}>
           <div>
             <Image imgSrc={bannerImgThree} />
           </div>

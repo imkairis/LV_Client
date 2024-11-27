@@ -1,6 +1,6 @@
 import { instanceAxios } from "../constants/instanceAxios";
 
-
+// Lấy danh sách donations (có thể lọc theo tham số)
 export const fetchAllAdopts = async (params = {}) => {
     try {
         const query = new URLSearchParams(params);
@@ -8,19 +8,27 @@ export const fetchAllAdopts = async (params = {}) => {
             query.size !== 0 ? `/donations?${query.toString()}` : "/donations";
 
         const response = await instanceAxios.get(url);
-        return response.data.data; // Giả sử dữ liệu nằm trong `data.data`
+        return response.data.data; // Dữ liệu nằm trong `data.data`
     } catch (error) {
-        console.error("Error fetching adopts:", error);
+        console.error("Error fetching donations:", error);
         throw error;
     }
 };
-
-// Tạo object cho donation
+export const getMyDonations = async () => {
+    try {
+        const response = await instanceAxios.get("/donations/mydonations"); // Đường dẫn API lấy donations của người dùng hiện tại
+        return response.data.data; // Giả sử dữ liệu nằm trong `data.data`
+    } catch (error) {
+        console.error("Error fetching my donations:", error);
+        throw error;
+    }
+};
+// Tạo object cho donation (dùng FormData để gửi dữ liệu)
 export const createObjectDonation = ({
     user,
     name,
     age,
-    type, // Thêm loại thú cưng
+    type, // Loại thú cưng
     historyOfIssue,
     currentIssue,
     status,
@@ -30,19 +38,6 @@ export const createObjectDonation = ({
     images = [],
     description = "",
 }) => {
-    // return {
-    //   user,
-    //   name,
-    //   age,
-    //   type,
-    //   historyOfIssue,
-    //   currentIssue,
-    //   status,
-    //   address,
-    //   phone,
-    //   images,
-    //   description,
-    // };
     const formdata = new FormData();
     formdata.append("user", user);
     formdata.append("name", name);
@@ -53,7 +48,8 @@ export const createObjectDonation = ({
     formdata.append("status", status);
     formdata.append("address", address);
     formdata.append("phone", phone);
-    formdata.append("gender", gender)
+    formdata.append("gender", gender);
+
     if (images.length > 0) {
         Array.from(images).forEach((img) => {
             formdata.append("images", img);
@@ -64,16 +60,14 @@ export const createObjectDonation = ({
     return formdata;
 };
 
-// Hàm gửi yêu cầu tạo donation
+// Tạo một donation mới
 export const createDonation = async (donationData) => {
     const donationObject = createObjectDonation(donationData);
     try {
         const response = await instanceAxios.post(
             "/donations",
-            donationObject,
-
+            donationObject
         );
-
         console.log("Server Response:", response.data);
         return response.data.data;
     } catch (error) {
@@ -85,6 +79,7 @@ export const createDonation = async (donationData) => {
     }
 };
 
+// Lấy các bình luận cho một donation cụ thể
 export const getCommentsDonation = async (donationId, page = 1) => {
     try {
         const response = await instanceAxios.get(`/donations/${donationId}/comments?page=${page}`);
@@ -93,8 +88,9 @@ export const getCommentsDonation = async (donationId, page = 1) => {
         console.error("Error fetching comments:", error);
         throw error;
     }
-}
+};
 
+// Tạo bình luận cho donation
 export const createComment = async (donationId, content) => {
     try {
         const response = await instanceAxios.post(`/donations/${donationId}/comments`, {
@@ -105,8 +101,9 @@ export const createComment = async (donationId, content) => {
         console.error("Error creating comment:", error);
         throw error;
     }
-}
+};
 
+// Cập nhật bình luận
 export const updateComment = async (commentId, content) => {
     try {
         const response = await instanceAxios.put(`/donations/comments/${commentId}`, {
@@ -117,8 +114,9 @@ export const updateComment = async (commentId, content) => {
         console.error("Error updating comment:", error);
         throw error;
     }
-}
+};
 
+// Xóa bình luận
 export const deleteComment = async (commentId) => {
     try {
         const response = await instanceAxios.delete(`/donations/comments/${commentId}`);
@@ -127,4 +125,4 @@ export const deleteComment = async (commentId) => {
         console.error("Error deleting comment:", error);
         throw error;
     }
-}
+};

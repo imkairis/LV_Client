@@ -7,7 +7,9 @@ export const Adopt = ({ id, images, age, name, status, type, gender }) => {
       ? "bg-green-600"
       : status === "Đã có người nhận nuôi"
       ? "bg-blue-600"
-      : "bg-gray-600"; // Màu mặc định nếu status khác giá trị mong muốn
+      : status === "Từ chối"
+      ? "bg-red-600"
+      : "bg-gray-600";
 
   return (
     <div className="relative block rounded-tr-3xl border border-gray-100 overflow-hidden">
