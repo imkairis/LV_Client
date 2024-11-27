@@ -18,8 +18,12 @@ const ItemCard = ({ item, onCheck, checked }) => {
   };
 
   const updateItem = (productInfo, quantity) => {
+    if (quantity < 1) {
+        return;
+    }
     updateQuantity(productInfo._id, quantity)
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         dispatch(
           updateQuantityItem({
             id: productInfo._id,

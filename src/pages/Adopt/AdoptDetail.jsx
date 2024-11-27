@@ -83,7 +83,7 @@ const AdoptDetailPage = () => {
                                             imgSrc={image}
                                             isServer
                                             alt={adoptItem.name}
-                                            className='w-full h-auto object-cover rounded-lg' // Đặt h-auto để chiều cao tự động theo hình ảnh
+                                            className='w-full h-auto object-cover rounded-lg'
                                         />
                                     </div>
                                 ))}

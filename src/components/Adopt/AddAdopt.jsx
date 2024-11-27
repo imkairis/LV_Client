@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useAddAdopt } from "../../hooks/useAddAdopt"; // import hook
 
