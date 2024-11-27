@@ -31,6 +31,8 @@ import Footer from "./components/home/Footer/Footer";
 import AccountOrder from "./pages/Info/AccountOrder";
 import OrderDetailClient from "./pages/Order/Order";
 import AccountAdopt from "./pages/Info/AccountAdopt";
+import UpdateAdopt from "./pages/Adopt/UpdateAdopt";
+
 const Layout = () => {
   return (
     <div>
@@ -70,6 +72,7 @@ const router = createBrowserRouter(
         <Route path="/adopt/:id" element={<AdoptDetail />} />
         <Route path="/account-adopt" element={<AccountAdopt />} />
         <Route path="/addpet" element={<AddPetForm />} />
+        <Route path="/adopt/update/:id" element={<UpdateAdopt />} />
       </Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/signin" element={<SignIn />}></Route>

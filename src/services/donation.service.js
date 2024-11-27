@@ -39,7 +39,9 @@ export const createObjectDonation = ({
     description = "",
 }) => {
     const formdata = new FormData();
-    formdata.append("user", user);
+    if (user) {
+        formdata.append("user", user);
+    }
     formdata.append("name", name);
     formdata.append("age", age);
     formdata.append("type", type);
@@ -61,7 +63,7 @@ export const createObjectDonation = ({
 };
 
 // Tạo một donation mới
-export const createDonation = async (donationData) => {
+export const createDonation = async (donationData) => {    
     const donationObject = createObjectDonation(donationData);
     try {
         const response = await instanceAxios.post(
@@ -75,6 +77,18 @@ export const createDonation = async (donationData) => {
             "Error creating donation:",
             error.response ? error.response.data : error.message
         );
+        throw error;
+    }
+};
+
+export const updateAdopt = async (id, data) => {
+    try {
+        console.log("Donation Data:", data);
+        const formDataAdopt = createObjectDonation(data);
+        const response = await instanceAxios.put(`/donations/${id}`, formDataAdopt);
+        return response.data.data;
+    } catch (error) {
+        console.error("Error updating adopt:", error);
         throw error;
     }
 };
