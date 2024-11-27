@@ -53,6 +53,52 @@ function OrderDetailClient() {
   }
 
   const address = JSON.parse(order?.address);
+  const cancelOrder = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_HOST}/orders/cancel/${id}`, // Gọi API hủy đơn hàng
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Gửi token xác thực
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        alert("Đơn hàng đã bị hủy!");
+        setOrder(data.data); // Cập nhật lại dữ liệu đơn hàng
+      } else {
+        alert(data.error || "Không thể hủy đơn hàng.");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Đã xảy ra lỗi khi hủy đơn hàng.");
+    }
+  };
+  const markAsDelivered = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_HOST}/orders/mark-as-delivered/${id}`, // Gọi API cập nhật trạng thái thành delivered
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Gửi token xác thực
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        alert("Đơn hàng đã được đánh dấu là đã giao!");
+        setOrder(data.data); // Cập nhật lại dữ liệu đơn hàng
+      } else {
+        alert(data.error || "Không thể cập nhật trạng thái.");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Đã xảy ra lỗi khi cập nhật trạng thái.");
+    }
+  };
 
   return (
     <div className="p-6">
@@ -66,6 +112,26 @@ function OrderDetailClient() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
           {/* Thông tin đơn hàng */}
           <div className="space-y-4">
+            {order?.deliveryStatus === "shipping" && (
+              <div className="mt-4">
+                <button
+                  onClick={markAsDelivered}
+                  className="bg-green-600 text-white py-2 px-4 rounded"
+                >
+                  Đánh dấu là đã giao
+                </button>
+              </div>
+            )}
+            {order?.deliveryStatus === "pending" && (
+              <div className="mt-4">
+                <button
+                  onClick={cancelOrder}
+                  className="bg-red-600 text-white py-2 px-4 rounded"
+                >
+                  Hủy đơn hàng
+                </button>
+              </div>
+            )}
             <p>
               <span className="font-medium">Mã đơn hàng:</span> {order?._id}
             </p>
