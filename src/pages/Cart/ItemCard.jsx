@@ -7,7 +7,7 @@ import {
   deleteItem as deleteItemInCart,
 } from "../../redux/orebiSlice";
 
-const ItemCard = ({ item, onCheck }) => {
+const ItemCard = ({ item, onCheck, checked }) => {
   const dispatch = useDispatch();
   const deleteItem = (productInfo) => {
     deleteItemCart(productInfo._id)
@@ -75,6 +75,7 @@ const ItemCard = ({ item, onCheck }) => {
             name="buy"
             value={item._id}
             onChange={onCheck}
+            checked={checked}
           />
         </div>
       </div>

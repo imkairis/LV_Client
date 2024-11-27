@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { initCart, resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 import { clearCart } from "../../services/cart.service";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.products);
   const [prodBuy, setProdBuy] = useState([]);
   const [totalAmt, setTotalAmt] = useState(0);
-  const [shippingCharge, setShippingCharge] = useState(30000);
+  const [shippingCharge] = useState(30000);
+  const nav = useNavigate();
+
+  // Tính lại giá tổng khi prodBuy thay đổi
+  useEffect(() => {
+    setTotalAmt(
+      prodBuy.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    );
+  }, [prodBuy]);
 
   useEffect(() => {
     const fetchCartItem = () => {
@@ -31,9 +40,7 @@ const Cart = () => {
             };
           });
           dispatch(initCart(items));
-
-          setProdBuy([]);
-          setTotalAmt(0);
+          setProdBuy(items);
         })
         .catch((err) => console.log(err));
     };
@@ -48,18 +55,10 @@ const Cart = () => {
     if (e.target.checked) {
       // Thêm sản phẩm vào danh sách đã chọn và cập nhật tổng
       setProdBuy((prevProdBuy) => [...prevProdBuy, selectedProduct]);
-      setTotalAmt(
-        (prevTotal) =>
-          prevTotal + selectedProduct.price * selectedProduct.quantity
-      );
     } else {
       // Xóa sản phẩm khỏi danh sách đã chọn và cập nhật tổng
       setProdBuy((prevProdBuy) =>
         prevProdBuy.filter((item) => item._id !== e.target.value)
-      );
-      setTotalAmt(
-        (prevTotal) =>
-          prevTotal - selectedProduct.price * selectedProduct.quantity
       );
     }
   };
@@ -70,6 +69,18 @@ const Cart = () => {
         setProdBuy([]); // Reset lại các sản phẩm đã chọn
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleNavigateCheckout = () => {
+    if (prodBuy.length === 0) {
+      toast.error("Vui lòng chọn sản phẩm muốn mua!");
+      return;
+    }
+    nav("/checkout", {
+      state: {
+        items: prodBuy,
+      },
+    });
   };
 
   return (
@@ -84,56 +95,69 @@ const Cart = () => {
             <h2>Sub Total</h2>
           </div>
           <div className="mt-5">
-            {products.map((item) => (
-              <div key={item?._id}>
-                <ItemCard item={item} onCheck={handleCheckProduct} />
-              </div>
-            ))}
+            <AnimatePresence>
+              {products.map((item) => (
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ x: 20, opacity: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 900,
+                    damping: 40,
+                    duration: 0.4,
+                  }}
+                  key={item?._id}
+                >
+                  <ItemCard
+                    item={item}
+                    checked={
+                      item._id === prodBuy.find((p) => p._id === item._id)?._id
+                    }
+                    onCheck={handleCheckProduct}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
-          <button
+          <motion.button
             onClick={handleResetCart}
             className="py-2 px-10 bg-red-500 text-white font-semibold uppercase mb-4 hover:bg-red-700 duration-300"
           >
             Reset cart
-          </button>
+          </motion.button>
 
           <div className="max-w-7xl gap-4 flex justify-end mt-4">
             <div className="w-96 flex flex-col gap-4">
-              <h1 className="text-2xl font-semibold text-right">
-                Tổng giá giỏ hàng
-              </h1>
+              <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
               <div>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                  Tổng giá sản phẩm
+                  Subtotal
                   <span className="font-semibold tracking-wide font-titleFont">
                     {totalAmt.toLocaleString("vi-VN")} VND
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                  Phí vận chuyển(tạm tính)
+                  Shipping Charge
                   <span className="font-semibold tracking-wide font-titleFont">
                     {shippingCharge.toLocaleString("vi-VN")} VND
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
-                  Tổng đơn hàng
+                  Total
                   <span className="font-bold tracking-wide text-lg font-titleFont">
                     {(totalAmt + shippingCharge).toLocaleString("vi-VN")} VND
                   </span>
                 </p>
               </div>
               <div className="flex justify-end">
-                <Link
-                  to="/checkout"
-                  state={{
-                    items: prodBuy,
-                  }}
+                <button
+                  className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300"
+                  onClick={handleNavigateCheckout}
                 >
-                  <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
-                    Đặt hàng
-                  </button>
-                </Link>
+                  Proceed to Checkout
+                </button>
               </div>
             </div>
           </div>
@@ -154,14 +178,15 @@ const Cart = () => {
           </div>
           <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
             <h1 className="font-titleFont text-xl font-bold uppercase">
-              Giỏ hàng bạn đang trống
+              Your Cart feels lonely.
             </h1>
             <p className="text-sm text-center px-10 -mt-2">
-              Hãy thêm sản phẩm vào giỏ hàng đi nào!!!
+              Your Shopping cart lives to serve. Give it purpose - fill it with
+              books, electronics, videos, etc. and make it happy.
             </p>
             <Link to="/shop">
               <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
-                Tiếp tục mua hàng
+                Continue Shopping
               </button>
             </Link>
           </div>
