@@ -14,9 +14,9 @@ export const fetchAllAdopts = async (params = {}) => {
         throw error;
     }
 };
-export const getMyDonations = async () => {
+export const getAllMyDonations = async () => {
     try {
-        const response = await instanceAxios.get("/donations/mydonations"); // Đường dẫn API lấy donations của người dùng hiện tại
+        const response = await instanceAxios.get("/donations/me"); // Đường dẫn API lấy donations của người dùng hiện tại
         return response.data.data; // Giả sử dữ liệu nằm trong `data.data`
     } catch (error) {
         console.error("Error fetching my donations:", error);
