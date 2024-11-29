@@ -68,7 +68,7 @@ const ProductDetails = () => {
               <strong>Xuất xứ:</strong> {productInfo.origin}
             </p>
             <p className="font-medium text-lg mt-4">
-              <strong>Tình trạng:</strong>{" "}
+              <strong>Tình trạng:</strong> {productInfo.status}
             </p>
 
             <h6 className="text-2xl font-semibold leading-relaxed mt-4">

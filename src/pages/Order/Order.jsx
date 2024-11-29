@@ -171,7 +171,10 @@ function OrderDetailClient() {
             </p>
             <p>
               <span className="font-medium">Trạng thái:</span>{" "}
-              {order?.deliveryStatus}
+              {order?.deliveryStatus === "pending" ? "Chờ xác nhận" : ""}
+              {order?.deliveryStatus === "shipping" ? "Đang giao" : ""}
+              {order?.deliveryStatus === "delivered" ? "Đã giao" : ""}
+              {order?.deliveryStatus === "failed" ? "Đã hủy" : ""}
             </p>
             <p>
               <span className="font-medium">Phương thức thanh toán:</span>{" "}

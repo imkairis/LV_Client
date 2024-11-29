@@ -60,6 +60,29 @@ function AccountOrder() {
                   {new Date(order.createdAt).toLocaleDateString()}
                 </p>
               </div>
+              {/* Hiển thị trạng thái giao hàng */}
+              <div className="mb-4">
+                <span className="font-medium">Trạng thái giao hàng:</span>{" "}
+                <span
+                  className={`px-2 py-1 rounded ${
+                    order.deliveryStatus === "pending"
+                      ? "bg-yellow-100 text-yellow-600"
+                      : order.deliveryStatus === "shipping"
+                      ? "bg-blue-100 text-blue-600"
+                      : order.deliveryStatus === "delivered"
+                      ? "bg-green-100 text-green-600"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
+                  {order.deliveryStatus === "pending"
+                    ? "Đang chờ xử lý"
+                    : order.deliveryStatus === "shipping"
+                    ? "Đang giao"
+                    : order.deliveryStatus === "delivered"
+                    ? "Đã giao"
+                    : "Giao hàng thất bại"}
+                </span>
+              </div>
               <div className="text-right">
                 <Link
                   to={`/order-detail/${order._id}`}
