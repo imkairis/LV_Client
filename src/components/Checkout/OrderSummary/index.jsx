@@ -1,7 +1,7 @@
 const OrderSummary = ({ totalAmt, shippingCharge, onSubmit }) => {
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+      <h2 className="text-xl font-bold mb-4">Tổng giá đơn hàng</h2>
       <div className="flex justify-between mt-4 border-t pt-2">
         <span>Tổng giá sản phẩm</span>
         <span>{totalAmt.toLocaleString("vi-VN")} VND</span>

@@ -29,6 +29,8 @@ function AccountOrder() {
       setLoading(false);
     }
   };
+  const formatPrice = (price) =>
+    price?.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 
   useEffect(() => {
     fetchOrders();
@@ -83,7 +85,11 @@ function AccountOrder() {
                     : "Giao hàng thất bại"}
                 </span>
               </div>
-              <div className="text-right">
+              <div className="text-left">
+                <div className="text-blue-500 hover:text-blue-700 underline"></div>
+                Tổng hóa đơn: {formatPrice(order.totalPrice)}
+              </div>
+              <div className="text-center">
                 <Link
                   to={`/order-detail/${order._id}`}
                   className="text-blue-500 hover:text-blue-700 underline"
