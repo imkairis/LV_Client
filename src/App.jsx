@@ -36,7 +36,6 @@ import UpdateAdopt from "./pages/Adopt/UpdateAdopt";
 const Layout = () => {
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
       <Header />
       <HeaderBottom />
       <SpecialCase />
@@ -83,6 +82,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <div className="font-bodyFont">
+      <Toaster position="top-center" reverseOrder={false} />
       <RouterProvider router={router} />
     </div>
   );
