@@ -8,7 +8,7 @@ export const fetchAllAdopts = async (params = {}) => {
             query.size !== 0 ? `/donations?${query.toString()}` : "/donations";
 
         const response = await instanceAxios.get(url);
-        return response.data.data; // Dữ liệu nằm trong `data.data`
+        return response.data;
     } catch (error) {
         console.error("Error fetching donations:", error);
         throw error;
