@@ -12,14 +12,14 @@ function Modal({ isOpen, onClose, children, title = "Title" }) {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.5 }}
                             transition={{ duration: 0.3 }}
-                            className='bg-white p-8 rounded-lg'
+                            className='bg-white p-8 rounded-lg relative'
                         >
+                            <ImCross
+                                onClick={onClose}
+                                className='text-primeColor hover:text-red-500 duration-300 cursor-pointer absolute right-4 top-4'
+                            />
                             <div className='flex justify-center mb-4 relative'>
                                 <h4 className='font-medium text-lg'>{title}</h4>
-                                <ImCross
-                                    onClick={onClose}
-                                    className='text-primeColor hover:text-red-500 duration-300 cursor-pointer absolute right-0 top-0'
-                                />
                             </div>
 
                             {children}

@@ -93,6 +93,10 @@ export const updateAdopt = async (id, data) => {
     }
 };
 
+export const deleteAdopt = async (id) => {
+    return instanceAxios.delete(`/donations/${id}`);
+}
+
 // Lấy các bình luận cho một donation cụ thể
 export const getCommentsDonation = async (donationId, page = 1) => {
     try {
