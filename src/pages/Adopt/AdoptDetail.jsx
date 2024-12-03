@@ -4,13 +4,15 @@ import { instanceAxios } from "../../constants/instanceAxios";
 import Image from "../../components/designLayouts/Image";
 import Slider from "react-slick";
 import Comments from "../../components/Comments";
-
+import { Link, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 const AdoptDetailPage = () => {
   const { id } = useParams(); // Lấy `id` từ URL
   const [adoptItem, setAdoptItem] = useState(null); // Dữ liệu chi tiết thú cưng
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(true); // Trạng thái thu gọn
+  const userInfo = useSelector((state) => state.orebiReducer.userInfo);
 
   console.log("AdoptDetailPage -> adoptItem", adoptItem);
 
@@ -93,9 +95,14 @@ const AdoptDetailPage = () => {
 
           {/* Thông tin thú cưng */}
           <div className="bg-white shadow-lg rounded-lg p-6 border-gray-300 col-span-2">
-            <span className="text-green-500 font-semibold mt-4">
-              {adoptItem.type}
-            </span>
+            <div className="flex justify-between items-center">
+              <span className="text-green-500 font-semibold mt-4">
+                {adoptItem.type}
+              </span>
+              {adoptItem.user._id === userInfo._id && (
+                <Link to={`/adopt/update/${adoptItem._id}`}>Cập nhật</Link>
+              )}
+            </div>
 
             <h1 className="text-3xl font-bold leading-relaxed mt-4">
               {adoptItem.name}
