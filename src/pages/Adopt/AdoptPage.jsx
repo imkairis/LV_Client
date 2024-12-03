@@ -5,6 +5,14 @@ import { fetchAllAdopts } from "../../services/donation.service";
 import imgAdopt from "../../assets/images/Adopt/adoptbaneer.png";
 import Image from "../../components/designLayouts/Image";
 import ReactPaginate from "react-paginate";
+
+const statusOptions = [
+    "Đang chờ xét duyệt",
+    "Chưa có người nhận nuôi",
+    "Đã có người nhận nuôi",
+    "Từ chối",
+  ];
+
 const AdoptPage = () => {
     const [adopts, setAdopts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,12 +34,21 @@ const AdoptPage = () => {
         });
     };
 
+    const handleChangeFilterStatus = event => {
+        const status = event.target.value;
+        setSearchParam(prev => {
+            prev.set("status", status);
+            return prev;
+        });
+    };
+
     useEffect(() => {
         const getAdopts = async () => {
             try {
                 const res = await fetchAllAdopts({
                     limit: 12,
                     page: searchParam.get("page") || 1,
+                    status: searchParam.get("status") || "",
                 });
                 setAdopts(res.data);
                 setPagination(res.pagination);
@@ -60,7 +77,14 @@ const AdoptPage = () => {
                 className='w-full h-full object-cover mb-6'
             />
 
-            <div className='text-center mb-6'>
+            <div className='flex justify-between mb-6'>
+                <select onChange={handleChangeFilterStatus} className="bg-gray-100 p-2 rounded-md">
+                    {statusOptions.map((status, index) => (
+                        <option key={index} value={status}>
+                            {status}
+                        </option>
+                    ))}
+                </select>
                 <Link
                     to='/addpet'
                     className='inline-block px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
