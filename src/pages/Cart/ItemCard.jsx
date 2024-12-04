@@ -20,7 +20,7 @@ const ItemCard = ({ item, onCheck, checked }) => {
   const updateItem = (productInfo, quantity) => {
     // Kiểm tra số lượng trong kho và số lượng trong giỏ
     if (quantity < 1) return; // Prevent decreasing below 1
-    if (quantity > productInfo?.stockQuantity) {
+    if (quantity > productInfo?.quantity) {
       toast.error("Số lượng vượt quá số lượng trong kho!");
       return;
     }
