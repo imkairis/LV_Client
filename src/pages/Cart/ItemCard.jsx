@@ -6,6 +6,7 @@ import {
   updateQuantityItem,
   deleteItem as deleteItemInCart,
 } from "../../redux/orebiSlice";
+import toast from "react-hot-toast";
 
 const ItemCard = ({ item, onCheck, checked }) => {
   const dispatch = useDispatch();
@@ -19,8 +20,8 @@ const ItemCard = ({ item, onCheck, checked }) => {
   const updateItem = (productInfo, quantity) => {
     // Kiểm tra số lượng trong kho và số lượng trong giỏ
     if (quantity < 1) return; // Prevent decreasing below 1
-    if (quantity > productInfo.total) {
-      alert("Số lượng vượt quá số lượng trong kho!"); // Alert for exceeding stock
+    if (quantity > productInfo?.stockQuantity) {
+      toast.error("Số lượng vượt quá số lượng trong kho!");
       return;
     }
 
