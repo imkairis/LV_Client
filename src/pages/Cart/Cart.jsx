@@ -37,6 +37,7 @@ const Cart = () => {
             return {
               ...item.product,
               quantity: item.quantity,
+              stockQuantity: item.product.quantity,
             };
           });
           dispatch(initCart(items));
