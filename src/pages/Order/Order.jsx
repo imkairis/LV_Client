@@ -67,7 +67,7 @@ function OrderDetailClient() {
       const data = await response.json();
       if (response.ok) {
         alert("Đơn hàng đã bị hủy!");
-        setOrder(data.data); // Cập nhật lại dữ liệu đơn hàng
+        fetchOrderDetails(); // Gọi lại để tải lại chi tiết đơn hàng
       } else {
         alert(data.error || "Không thể hủy đơn hàng.");
       }
@@ -76,6 +76,7 @@ function OrderDetailClient() {
       alert("Đã xảy ra lỗi khi hủy đơn hàng.");
     }
   };
+
   const markAsDelivered = async () => {
     try {
       const response = await fetch(
@@ -90,7 +91,7 @@ function OrderDetailClient() {
       const data = await response.json();
       if (response.ok) {
         alert("Đơn hàng đã được đánh dấu là đã giao!");
-        setOrder(data.data); // Cập nhật lại dữ liệu đơn hàng
+        fetchOrderDetails(); // Gọi lại để tải lại chi tiết đơn hàng
       } else {
         alert(data.error || "Không thể cập nhật trạng thái.");
       }
@@ -103,6 +104,27 @@ function OrderDetailClient() {
   return (
     <div className="p-6">
       <div className="bg-white dark:bg-navy-700 p-6 mb-8 rounded-lg shadow-sm">
+        {/* Phần nút hành động */}
+        <div className="flex justify-end mb-4">
+          {order?.deliveryStatus === "shipping" && (
+            <button
+              onClick={markAsDelivered}
+              className="bg-green-600 text-white py-2 px-4 rounded mr-2"
+            >
+              Đã nhận hàng
+            </button>
+          )}
+          {order?.deliveryStatus === "pending" && (
+            <button
+              onClick={cancelOrder}
+              className="bg-red-600 text-white py-2 px-4 rounded"
+            >
+              Hủy đơn hàng
+            </button>
+          )}
+        </div>
+
+        {/* Thông tin đơn hàng */}
         <div className="space-y-4 text-center">
           <h2 className="text-2xl font-semibold text-blue-600">
             Thông tin đơn hàng
@@ -110,28 +132,8 @@ function OrderDetailClient() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
-          {/* Thông tin đơn hàng */}
+          {/* Chi tiết thông tin */}
           <div className="space-y-4">
-            {order?.deliveryStatus === "shipping" && (
-              <div className="mt-4">
-                <button
-                  onClick={markAsDelivered}
-                  className="bg-green-600 text-white py-2 px-4 rounded"
-                >
-                  Đánh dấu là đã giao
-                </button>
-              </div>
-            )}
-            {order?.deliveryStatus === "pending" && (
-              <div className="mt-4">
-                <button
-                  onClick={cancelOrder}
-                  className="bg-red-600 text-white py-2 px-4 rounded"
-                >
-                  Hủy đơn hàng
-                </button>
-              </div>
-            )}
             <p>
               <span className="font-medium">Mã đơn hàng:</span> {order?._id}
             </p>

@@ -16,14 +16,22 @@ const ItemCard = ({ item, onCheck, checked }) => {
       })
       .catch((err) => console.log(err));
   };
-
   const updateItem = (productInfo, quantity) => {
-    if (quantity < 1) {
-        return;
+    // Kiểm tra số lượng trong kho và số lượng trong giỏ
+    if (quantity < 1) return; // Prevent decreasing below 1
+    if (quantity > productInfo.total) {
+      alert("Số lượng vượt quá số lượng trong kho!"); // Alert for exceeding stock
+      return;
     }
-    updateQuantity(productInfo._id, quantity)
-      .then((res) => {
-        console.log(res);
+
+    // Kiểm tra nếu sản phẩm hết hàng thì xóa khỏi giỏ
+    if (productInfo.total === 0) {
+      deleteItem(productInfo); // Remove item if out of stock
+      return;
+    }
+
+    updateQuantity(productInfo._id, quantity) // Proceed to update quantity
+      .then(() => {
         dispatch(
           updateQuantityItem({
             id: productInfo._id,
@@ -33,6 +41,23 @@ const ItemCard = ({ item, onCheck, checked }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  // const updateItem = (productInfo, quantity) => {
+  //   if (quantity < 1) {
+  //     return;
+  //   }
+  //   updateQuantity(productInfo._id, quantity)
+  //     .then((res) => {
+  //       console.log(res);
+  //       dispatch(
+  //         updateQuantityItem({
+  //           id: productInfo._id,
+  //           quantity,
+  //         })
+  //       );
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div className="w-full grid grid-cols-5 mb-4 border py-2">

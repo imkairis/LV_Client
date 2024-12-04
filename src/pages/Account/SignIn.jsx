@@ -40,10 +40,12 @@ const SignIn = () => {
 
         dispatch(initUser(data?.user));
         nav("/");
+        toast.success("Đăng nhập thành công");
       })
       .catch((err) => {
         localStorage.clear("token");
         console.error(err);
+        toast.error("Lỗi khi kiểm tra đăng nhập");
       });
   };
 
@@ -99,8 +101,12 @@ const SignIn = () => {
         dispatch(initUser(data?.user));
         localStorage.setItem("user", JSON.stringify(data?.user));
         nav("/");
+        toast.success("Đăng nhập thành công");
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        toast.error("Thông tin đăng nhập không chính xác");
+      });
   };
 
   return (
